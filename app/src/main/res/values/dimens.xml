@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_main_size">22sp</dimen>
+    <dimen name="button_main_corner_radius">20dp</dimen>
+    <dimen name="button_main_icon_distance_to_text">8dp</dimen>
+    <dimen name="button_settings_size">16sp</dimen>
+</resources>
