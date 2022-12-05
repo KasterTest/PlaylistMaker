@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/main_background_color"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:fontFamily="@font/yandex_sans_text_medium"
     android:padding="25dp">
@@ -17,7 +17,7 @@
         android:textColor="@color/header_main_color"
         android:paddingBottom="2dp"
         android:fontFamily="@font/yandex_sans_text_medium"
-        android:textSize="22sp"/>
+        android:textSize="@dimen/button_main_size"/>
 
 
     <LinearLayout
@@ -31,60 +31,35 @@
         <Button
             android:id="@+id/main_button_search"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/button_background_main"
             android:text="@string/search"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/color_text_main_menu"
             app:icon="@drawable/search"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/button_main_icon_distance_to_text"
             app:iconTint="@color/black"
             app:cornerRadius="@dimen/button_main_corner_radius"
-            android:fontFamily="@font/yandex_sans_text_medium"
-            android:letterSpacing="-0.01"
-            android:foreground="?attr/selectableItemBackground"
-            android:textSize="@dimen/button_main_size" />
+            style="@style/ButtonMainActivity"/>
 
         <Button
             android:id="@+id/main_button_media_library"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/button_background_main"
             android:text="@string/media_library"
-            android:textAllCaps="false"
-            android:textColor="@color/color_text_main_menu"
             app:icon="@drawable/media_library"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/button_main_icon_distance_to_text"
             app:iconTint="@color/black"
             app:cornerRadius="@dimen/button_main_corner_radius"
-            android:fontFamily="@font/yandex_sans_text_medium"
-            android:letterSpacing="-0.01"
-            android:foreground="?attr/selectableItemBackground"
-            android:textSize="@dimen/button_main_size" />
+            style="@style/ButtonMainActivity"/>
 
         <Button
             android:id="@+id/main_button_settings"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/button_background_main"
             android:text="@string/settings"
-            android:textAllCaps="false"
-            android:textColor="@color/color_text_main_menu"
             app:icon="@drawable/settings"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/button_main_icon_distance_to_text"
             app:iconTint="@color/black"
             app:cornerRadius="@dimen/button_main_corner_radius"
-            android:fontFamily="@font/yandex_sans_text_medium"
-            android:letterSpacing="-0.01"
-            android:foreground="?attr/selectableItemBackground"
-            android:textSize="@dimen/button_main_size" />
+            style="@style/ButtonMainActivity"/>
     </LinearLayout>
 
 </LinearLayout>
