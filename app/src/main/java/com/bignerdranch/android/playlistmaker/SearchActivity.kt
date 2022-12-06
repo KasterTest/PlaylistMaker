@@ -1,13 +1,14 @@
 package com.bignerdranch.android.playlistmaker
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-
+import androidx.appcompat.app.AppCompatActivity
 
 
 class SearchActivity : AppCompatActivity() {
@@ -35,6 +36,9 @@ class SearchActivity : AppCompatActivity() {
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         clearButton.setOnClickListener {
             inputSearchEditText.setText("")
+            val context: Context = applicationContext
+            val imm: InputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(inputSearchEditText.windowToken, 0)
         }
         val searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

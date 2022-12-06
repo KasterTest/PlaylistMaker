@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/search_icon"
                 android:drawablePadding="8dp"
-                android:drawableTint="?attr/imageButtonStyle"
+                android:drawableTint="?attr/colorOnSurfaceVariant"
                 android:fontFamily="@font/ys_display_regular"
                 android:hint="@string/search_hint"
                 android:inputType="text"
@@ -43,7 +43,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="40dp"
                 android:textColor="@color/main_background_color_background"
-                android:textColorHint="?attr/imageButtonStyle"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textFontWeight="400"
                 android:textSize="@dimen/button_search_size" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="12dp"
-                android:backgroundTint="?attr/imageButtonStyle"
+                android:backgroundTint="?attr/colorOnSurfaceVariant"
                 android:src="@drawable/clear_button"
                 android:visibility="gone" />
         </FrameLayout>

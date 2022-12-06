@@ -4,17 +4,20 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_background_color</item>
         <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/background_search</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/color_text_main_menu</item>
         <item name="colorSecondaryVariant">@color/color_text_main_menu</item>
         <item name="colorSwitchThumbNormal">@color/white</item>
         <item name="colorOnSecondary">@color/color_text_main_menu</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/background_search</item>
         <item name="editTextColor">@color/edit_text_color</item>
         <!-- Customize your theme here. -->
-        <item name="imageButtonStyle">@color/image_color</item>
+        <item name="colorOnSurfaceVariant">@color/image_color</item>
+        <item name="colorOnPrimarySurface">@color/image_color</item>
+        <item name="colorPrimarySurface">@color/black</item>
+        <item name="colorOnSurfaceInverse">@color/background_search</item>
     </style>
 
     <style name="Theme.PlaylistMakerMainMenu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">

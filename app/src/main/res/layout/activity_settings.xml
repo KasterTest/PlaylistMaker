@@ -27,7 +27,7 @@
         android:textSize="@dimen/button_settings_size"
         android:letterSpacing="-0.01"
         android:fontFamily="@font/yandex_sans_display_regular"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="?attr/colorPrimarySurface"
         android:thumbTint="?attr/colorSwitchThumbNormal"
         android:trackTint="?attr/colorSecondaryVariant"
         android:text="@string/switch_dark_theme_text"

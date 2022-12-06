@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/color_text_main_menu</item>
         <item name="colorPrimaryVariant">?attr/colorPrimary</item>
-        <item name="colorOnPrimary">@color/color_text_main_menu</item>
+        <item name="colorOnPrimary">@color/background_search_night</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/main_background_color</item>
@@ -15,6 +15,10 @@
         <!-- Customize your theme here. -->
         <item name="editTextColor">@color/white</item>
         <item name="imageButtonStyle">@color/image_color_night</item>
+        <item name="colorOnSurfaceVariant">@color/image_color_night</item>
+        <item name="colorOnPrimarySurface">@color/white</item>
+        <item name="colorPrimarySurface">@color/white</item>
+        <item name="colorOnSurfaceInverse">@color/background_search_night</item>
 
     </style>
     <style name="Theme.PlaylistMakerMainMenu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
