@@ -15,15 +15,14 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
     }
+    var putInputSearchEditText = ""
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val inputSearchEditText = findViewById<EditText>(R.id.inputEditText)
-        outState.putString(SEARCH_STRING, inputSearchEditText.text.toString())
+        outState.putString(SEARCH_STRING, putInputSearchEditText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        // Вторым параметром мы передаём значение по умолчанию
         val inputSearchEditText = findViewById<EditText>(R.id.inputEditText)
         inputSearchEditText.setText(savedInstanceState.getString(SEARCH_STRING,""))
     }
@@ -44,6 +43,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
+                putInputSearchEditText = findViewById<EditText>(R.id.inputEditText).text.toString()
+
             }
 
             override fun afterTextChanged(s: Editable?) {

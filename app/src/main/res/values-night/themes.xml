@@ -13,7 +13,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="editTextColor">@color/edit_text_color_night</item>
+        <item name="editTextColor">@color/white</item>
         <item name="imageButtonStyle">@color/image_color_night</item>
 
     </style>
@@ -30,6 +30,22 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/color_text_main_menu</item>
+        <item name="colorPrimaryVariant">?attr/colorPrimary</item>
+        <item name="colorOnPrimary">@color/color_text_main_menu</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/main_background_color</item>
+        <item name="colorSwitchThumbNormal">@color/main_background_color</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+        <item name="editTextColor">@color/edit_text_color_night</item>
+        <item name="imageButtonStyle">@color/image_color_night</item>
 
     </style>
 </resources>

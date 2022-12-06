@@ -21,24 +21,17 @@
         android:letterSpacing="-0.01"
         android:drawablePadding = "28dp">
     </TextView>
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="0dp"
-        app:cardCornerRadius="10dp">
-
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_corner"
+            android:layout_marginTop="24dp">
 
             <EditText
                 android:id="@+id/inputEditText"
+                android:background="@drawable/layout_corner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/edit_text_color"
                 android:drawableStart="@drawable/search_icon"
                 android:drawablePadding="8dp"
                 android:drawableTint="?attr/imageButtonStyle"
@@ -63,8 +56,5 @@
                 android:backgroundTint="?attr/imageButtonStyle"
                 android:src="@drawable/clear_button"
                 android:visibility="gone" />
-
-
         </FrameLayout>
-    </androidx.cardview.widget.CardView>
 </LinearLayout>

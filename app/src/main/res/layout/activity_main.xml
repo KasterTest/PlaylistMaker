@@ -33,10 +33,6 @@
             android:layout_width="match_parent"
             android:text="@string/search"
             app:icon="@drawable/search"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/button_main_icon_distance_to_text"
-            app:iconTint="@color/black"
-            app:cornerRadius="@dimen/button_main_corner_radius"
             style="@style/ButtonMainActivity"/>
 
         <Button
@@ -44,10 +40,6 @@
             android:layout_width="match_parent"
             android:text="@string/media_library"
             app:icon="@drawable/media_library"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/button_main_icon_distance_to_text"
-            app:iconTint="@color/black"
-            app:cornerRadius="@dimen/button_main_corner_radius"
             style="@style/ButtonMainActivity"/>
 
         <Button
@@ -55,10 +47,6 @@
             android:layout_width="match_parent"
             android:text="@string/settings"
             app:icon="@drawable/settings"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/button_main_icon_distance_to_text"
-            app:iconTint="@color/black"
-            app:cornerRadius="@dimen/button_main_corner_radius"
             style="@style/ButtonMainActivity"/>
     </LinearLayout>
 
