@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="14dp"
-    android:background="?attr/colorOnPrimary">
+    android:background="?attr/colorPrimaryVariant">
 
     <TextView
-        android:background="?attr/colorOnPrimary"
+        android:background="?attr/colorPrimaryVariant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -17,6 +16,8 @@
         android:textColor="?attr/colorOnSecondary"
         android:fontFamily="@font/yandex_sans_text_medium"
         android:textSize="@dimen/button_main_size"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="20dp"
         app:drawableStartCompat="@drawable/arrow_back"
         android:letterSpacing="-0.01"
         android:drawablePadding = "28dp">
@@ -25,6 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/layout_corner"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="24dp">
 
             <EditText
@@ -57,4 +60,12 @@
                 android:src="@drawable/clear_button"
                 android:visibility="gone" />
         </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </LinearLayout>

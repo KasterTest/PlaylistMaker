@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimaryVariant"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="2dp">
+
+        <ImageView
+            android:id="@+id/image_view_artwork"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/search_icon" />
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view_track_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/placeholder_track_name"
+            android:textColor="?attr/text_track"
+            android:textSize="@dimen/track_item_name_size"
+            android:fontFamily="@font/ys_text_regular"
+            android:layout_marginEnd="16dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_view_artist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="5dp"
+                android:text="@string/placeholder_artist_name"
+                android:textColor="?attr/text_name_artist_track"
+                android:fontFamily="@font/ys_text_regular"
+                android:textSize="@dimen/track_item_musician_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fillColor="?attr/text_name_artist_track"
+                android:layout_gravity="center|center_vertical"
+                android:src="@drawable/ellipse_1" />
+
+            <TextView
+                android:id="@+id/text_view_track_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:text="@string/placeholder_track_time"
+                android:layout_marginEnd="16dp"
+                android:textColor="?attr/text_name_artist_track"
+                android:fontFamily="@font/ys_text_regular"
+                android:textSize="@dimen/track_item_musician_size"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image_track_allow"
+        android:layout_width="8dp"
+        android:layout_height="13dp"
+        android:layout_gravity="center|center_vertical"
+        android:scaleType="fitCenter"
+        android:fillColor="?attr/text_name_artist_track"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_forward" />
+
+</LinearLayout>

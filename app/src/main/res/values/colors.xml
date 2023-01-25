@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="color_status_bar_search_activity">#FFFFFFFF</color>
     <color name="color_text_main_menu">#1A1B22</color>
     <color name="button_background_main">#ffffff</color>
     <color name="settings_menu_background">#ffffff</color>
@@ -20,4 +21,5 @@
     <color name="image_color_night">#1A1B22</color>
     <color name="background_search">#F5F5F5</color>
     <color name="background_search_night">#1A1B22</color>
+    <color name="name_artist_gray">#AEAFB4</color>
 </resources>

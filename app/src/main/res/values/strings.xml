@@ -15,4 +15,7 @@
     <string name="settings_share_text">https://practicum.yandex.ru/android-developer/</string>
     <string name="search_hint">Поиск</string>
     <string name="search_name">Поиск</string>
+    <string name="placeholder_track_name">Track Title</string>
+    <string name="placeholder_artist_name">Artist Name</string>
+    <string name="placeholder_track_time">Track Time</string>
 </resources>
