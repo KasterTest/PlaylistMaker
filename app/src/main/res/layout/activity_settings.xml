@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/settings"
+        android:textColor="?attr/colorOnSecondary"
+        android:fontFamily="@font/yandex_sans_text_medium"
+        android:textSize="@dimen/button_main_size"
+        app:drawableStartCompat="@drawable/arrow_back"
+        android:drawablePadding = "28dp">
+    </TextView>
+
+    <Switch
+        android:id="@+id/switch_theme"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/yandex_sans_display_regular"
+        android:letterSpacing="-0.01"
+        android:text="@string/switch_dark_theme_text"
+        android:textColor="?attr/colorPrimarySurface"
+        android:textSize="@dimen/button_settings_size"
+        android:thumbTint="?attr/colorSwitchThumbNormal"
+        android:trackTint="?attr/colorSecondaryVariant"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+    <Button
+        android:id="@+id/button_share"
+        android:text="@string/button_settings_share"
+        android:drawableEnd="@drawable/share"
+        style="@style/ButtonSettingsActivity"/>
+
+    <Button
+        android:id="@+id/button_support"
+        android:drawableEnd="@drawable/support"
+        android:text="@string/button_settings_support"
+        style="@style/ButtonSettingsActivity"/>
+
+    <Button
+        android:id="@+id/button_agreement"
+        android:drawableEnd="@drawable/arrow_forward"
+        android:text="@string/button_settings_terms_of_use"
+        style="@style/ButtonSettingsActivity"/>
+</LinearLayout>
+

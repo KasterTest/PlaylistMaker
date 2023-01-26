@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorPrimaryVariant">
+
+    <TextView
+        android:background="?attr/colorPrimaryVariant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/search_name"
+        android:textColor="?attr/colorOnSecondary"
+        android:fontFamily="@font/yandex_sans_text_medium"
+        android:textSize="@dimen/button_main_size"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="20dp"
+        app:drawableStartCompat="@drawable/arrow_back"
+        android:letterSpacing="-0.01"
+        android:drawablePadding = "28dp">
+    </TextView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_corner"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp">
+
+            <EditText
+                android:id="@+id/inputEditText"
+                android:background="@drawable/layout_corner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/search_icon"
+                android:drawablePadding="8dp"
+                android:drawableTint="?attr/colorOnSurfaceVariant"
+                android:fontFamily="@font/ys_display_regular"
+                android:hint="@string/search_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:minHeight="36dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="40dp"
+                android:textColor="@color/main_background_color_background"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
+                android:textFontWeight="400"
+                android:textSize="@dimen/button_search_size" />
+
+            <ImageView
+                android:id="@+id/clearIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="12dp"
+                android:backgroundTint="?attr/colorOnSurfaceVariant"
+                android:src="@drawable/clear_button"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>
