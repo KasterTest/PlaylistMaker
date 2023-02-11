@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:background="?attr/colorPrimaryVariant">
 
+
     <TextView
         android:background="?attr/colorPrimaryVariant"
         android:layout_width="wrap_content"
@@ -35,6 +36,8 @@
                 android:background="@drawable/layout_corner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:drawableStart="@drawable/search_icon"
                 android:drawablePadding="8dp"
                 android:drawableTint="?attr/colorOnSurfaceVariant"
@@ -61,11 +64,52 @@
                 android:visibility="gone" />
         </FrameLayout>
 
+    <ImageView
+        android:id="@+id/nothing_search_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="110dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="120dp"
+        android:backgroundTint="?attr/colorOnSurfaceVariant"
+        android:fontFamily="@font/ys_display_medium"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/placeholderMessage"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:maxLines="4"
+        android:textColor="?attr/colorSecondary"
+        android:textSize="@dimen/problem_text_size"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="134dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginTop="24dp"
+        app:cornerRadius="54dp"
+        android:textSize="@dimen/update_button"
+        android:fontFamily="@font/yandex_sans_display_regular"
+        android:letterSpacing="0.01"
+        android:layout_gravity="center"
+        android:textColor="?attr/text_update_button"
+        android:backgroundTint="?attr/colorSecondary"
+        android:textAllCaps="false"
+        android:text="@string/text_update_button"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </LinearLayout>

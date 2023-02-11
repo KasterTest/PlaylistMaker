@@ -20,6 +20,7 @@
         <item name="colorOnSurfaceInverse">@color/background_search</item>
         <item name="text_track">@color/black</item>
         <item name="text_name_artist_track">@color/name_artist_gray</item>
+        <item name="text_update_button">@color/white</item>
     </style>
 
     <style name="Theme.PlaylistMakerMainMenu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">

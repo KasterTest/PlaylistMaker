@@ -18,4 +18,7 @@
     <string name="placeholder_track_name">Track Title</string>
     <string name="placeholder_artist_name">Artist Name</string>
     <string name="placeholder_track_time">Track Time</string>
+    <string name="something_went_wrong">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="text_update_button">Обновить</string>
 </resources>
