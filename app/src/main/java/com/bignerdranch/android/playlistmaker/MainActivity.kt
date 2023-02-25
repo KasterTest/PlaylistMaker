@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
+import androidx.appcompat.app.AppCompatDelegate
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,14 @@ class MainActivity : AppCompatActivity() {
         val mainMenuButtonSearch = findViewById<Button>(R.id.main_button_search)
         val mainMenuButtonMediaLibrary = findViewById<Button>(R.id.main_button_media_library)
         val mainMenuButtonSettings = findViewById<Button>(R.id.main_button_settings)
+
+        val sharedPrefs = getSharedPreferences(STATE_CHECKED_SWITCH_BUTTON, MODE_PRIVATE)
+        var switchThemeModeState = sharedPrefs.getString(BUTTON_SWITCH_KEY, "")
+
+        when (switchThemeModeState) {
+            "true" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "false" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
 
         mainMenuButtonSearch.setOnClickListener {
             val displaySearchActivityIntent = Intent(this, SearchActivity::class.java)

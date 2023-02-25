@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 
+
+const val STATE_CHECKED_SWITCH_BUTTON = "isChecked"
+const val BUTTON_SWITCH_KEY = "key_for_switch_button"
+
 class SettingsActivity : AppCompatActivity() {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,10 +26,18 @@ class SettingsActivity : AppCompatActivity() {
         val settingsButtonAgreement= findViewById<Button>(R.id.button_agreement)
 
         val switchThemeMode = findViewById<Switch>(R.id.switch_theme)
+
+        // Использует по умолчанию темную тему, если она испоьзуется в системе
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> {switchThemeMode.isChecked = true}
-        }
+       }
+
+        val sharedPrefs = getSharedPreferences(STATE_CHECKED_SWITCH_BUTTON, MODE_PRIVATE)
+
         switchThemeMode.setOnCheckedChangeListener { _, isChecked ->
+            sharedPrefs.edit()
+                .putString(BUTTON_SWITCH_KEY, switchThemeMode.isChecked.toString())
+                .apply()
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
             } else {
@@ -57,4 +69,3 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 }
-

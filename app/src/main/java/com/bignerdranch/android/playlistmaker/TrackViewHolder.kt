@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.track_item, parent, false)
 ) {
@@ -28,7 +29,6 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             .transform(RoundedCorners(4))
             .into(imageViewArtwork)
         itemView.setOnClickListener {
-            //На будущее
         }
     }
 }

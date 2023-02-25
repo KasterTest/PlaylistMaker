@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/track_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimaryVariant"
@@ -31,6 +32,7 @@
             android:layout_marginTop="14dp"
             android:text="@string/placeholder_track_name"
             android:textColor="?attr/text_track"
+            android:maxLines="1"
             android:textSize="@dimen/track_item_name_size"
             android:fontFamily="@font/ys_text_regular"
             android:layout_marginEnd="16dp"/>
@@ -46,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="5dp"
+                android:maxLines="1"
                 android:text="@string/placeholder_artist_name"
                 android:textColor="?attr/text_name_artist_track"
                 android:fontFamily="@font/ys_text_regular"
@@ -65,6 +68,7 @@
                 android:paddingStart="5dp"
                 android:text="@string/placeholder_track_time"
                 android:layout_marginEnd="16dp"
+                android:maxLines="1"
                 android:textColor="?attr/text_name_artist_track"
                 android:fontFamily="@font/ys_text_regular"
                 android:textSize="@dimen/track_item_musician_size"/>
