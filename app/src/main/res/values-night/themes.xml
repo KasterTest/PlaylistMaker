@@ -22,7 +22,6 @@
         <item name="text_track">@color/white</item>
         <item name="text_name_artist_track">@color/white</item>
         <item name="text_update_button">@color/background_search_night</item>
-
     </style>
     <style name="Theme.PlaylistMakerMainMenu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
+import com.bignerdranch.android.playlistmaker.SettingsActivity.Companion.BUTTON_SWITCH_KEY
+import com.bignerdranch.android.playlistmaker.SettingsActivity.Companion.STATE_CHECKED_SWITCH_BUTTON
 
 
 class MainActivity : AppCompatActivity() {

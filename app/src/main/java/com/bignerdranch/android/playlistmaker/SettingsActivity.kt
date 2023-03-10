@@ -12,10 +12,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 
 
-const val STATE_CHECKED_SWITCH_BUTTON = "isChecked"
-const val BUTTON_SWITCH_KEY = "key_for_switch_button"
-
 class SettingsActivity : AppCompatActivity() {
+
+    companion object {
+        const val STATE_CHECKED_SWITCH_BUTTON = "isChecked"
+        const val BUTTON_SWITCH_KEY = "key_for_switch_button"
+    }
+
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

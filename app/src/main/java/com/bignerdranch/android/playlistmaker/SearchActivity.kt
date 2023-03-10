@@ -1,5 +1,6 @@
 package com.bignerdranch.android.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.playlistmaker.SearchHistory.Companion.SEARCH_HISTORY_KEY
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +24,7 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
+        const val TRACK_IN_PLAYER = "TRACK_IN_PLAYER"
     }
 
     private val itunesBaseUrl = "https://itunes.apple.com"
@@ -32,6 +35,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearButton : ImageView
     private lateinit var labelSearch : TextView
     private lateinit var clearHistory : Button
+    private lateinit var searchHistory: SearchHistory
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(itunesBaseUrl)
@@ -61,19 +65,17 @@ class SearchActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.color_status_bar_search_activity)
         itemAssign()
 
-        val searchHistory = SearchHistory(getSharedPreferences(SEARCH_HISTORY_KEY, MODE_PRIVATE))
-
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-
         adapter.itemClickListener = {position, track ->
             searchHistory.addTrack(track)
+            showPlayer(track)
         }
 
 
-        setListener(searchHistory)
+        setListener()
 
         val searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -105,58 +107,56 @@ class SearchActivity : AppCompatActivity() {
             itunesService.findTrack(inputSearchEditText.text.toString()).enqueue(object :
                 Callback<ItunesResponse> {
                 override fun onResponse(call: Call<ItunesResponse>,
-                                        response: Response<ItunesResponse>
-                ) {
+                                        response: Response<ItunesResponse>) {
                     if (response.code() == 200) {
                         trackList.clear()
                         if (response.body()?.results?.isNotEmpty() == true) {
                             trackList.addAll(response.body()?.results!!)
                             adapter.notifyDataSetChanged()
-                        }
-                        if (trackList.isEmpty()) {
-                            displayNothingFound()
+                            updateUI(SearchStatus.SUCCESS)
                         } else {
-                            hideProblemView()
+                            updateUI(SearchStatus.EMPTY_SEARCH)
                         }
                     } else {
-                        displayInetProblem()
+                        updateUI(SearchStatus.CONNECTION_ERROR)
                     }
                 }
 
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
-                    displayInetProblem()
+                    updateUI(SearchStatus.CONNECTION_ERROR)
                 }
-
             })
         }
     }
-    private fun displayInetProblem (){
-        placeholderMessage.visibility = View.VISIBLE
-        placeholderMessage.text = getString(R.string.something_went_wrong)
-        nothingSearchImage.visibility = View.VISIBLE
-        nothingSearchImage.setImageResource(R.drawable.problem_search)
-        updateButton.visibility = View.VISIBLE
-        trackList.clear()
-        adapter.notifyDataSetChanged()
-    }
-    private fun displayNothingFound () {
-        placeholderMessage.visibility = View.VISIBLE
-        placeholderMessage.text = getString(R.string.nothing_found)
-        nothingSearchImage.visibility = View.VISIBLE
-        nothingSearchImage.setImageResource(R.drawable.nothing_search)
-        trackList.clear()
-        adapter.notifyDataSetChanged()
-    }
 
-    private fun hideProblemView () {
-        placeholderMessage.visibility = View.GONE
-        placeholderMessage.visibility = View.GONE
-        nothingSearchImage.visibility = View.GONE
-        updateButton.visibility = View.GONE
+    private fun updateUI(searchStatus: SearchStatus) {
+        when (searchStatus) {
+            SearchStatus.CONNECTION_ERROR -> {
+                placeholderMessage.visibility = View.VISIBLE
+                placeholderMessage.text = getString(R.string.something_went_wrong)
+                nothingSearchImage.visibility = View.VISIBLE
+                nothingSearchImage.setImageResource(R.drawable.problem_search)
+                updateButton.visibility = View.VISIBLE
+                trackList.clear()
+                adapter.notifyDataSetChanged()
+            }
+            SearchStatus.EMPTY_SEARCH -> {
+                placeholderMessage.visibility = View.VISIBLE
+                placeholderMessage.text = getString(R.string.nothing_found)
+                nothingSearchImage.visibility = View.VISIBLE
+                nothingSearchImage.setImageResource(R.drawable.nothing_search)
+                trackList.clear()
+                adapter.notifyDataSetChanged()
+            }
+            SearchStatus.SUCCESS -> {
+                placeholderMessage.visibility = View.GONE
+                nothingSearchImage.visibility = View.GONE
+                updateButton.visibility = View.GONE
+            }
+        }
     }
 
     private fun itemAssign () {
-
         nothingSearchImage = findViewById(R.id.nothing_search_image)
         placeholderMessage = findViewById(R.id.placeholderMessage)
         updateButton = findViewById(R.id.update_button)
@@ -164,9 +164,10 @@ class SearchActivity : AppCompatActivity() {
         clearButton = findViewById(R.id.clearIcon)
         labelSearch = findViewById(R.id.label_search)
         clearHistory = findViewById(R.id.clear_history)
+        searchHistory = SearchHistory(getSharedPreferences(SEARCH_HISTORY_KEY, MODE_PRIVATE))
     }
 
-    private fun setListener (searchHistory: SearchHistory) {
+    private fun setListener () {
         updateButton.setOnClickListener {
             sendResponse()
         }
@@ -183,11 +184,11 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             inputSearchEditText.text = ""
             inputSearchEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
-            inputSearchEditText.isFocusable = false
-            inputSearchEditText.isFocusableInTouchMode = false
+            inputSearchEditText.clearFocus()
             inputSearchEditText.isFocusable = true
             inputSearchEditText.isFocusableInTouchMode = true
             goneHistorySearch(" ", searchHistory)
+            updateUI(SearchStatus.SUCCESS)
 
         }
 
@@ -195,6 +196,7 @@ class SearchActivity : AppCompatActivity() {
             inputSearchEditText.isFocusable = true
             inputSearchEditText.isFocusableInTouchMode = true
             goneHistorySearch(inputSearchEditText.text, searchHistory)
+            updateUI(SearchStatus.SUCCESS)
         }
 
         clearHistory.setOnClickListener {
@@ -207,6 +209,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun goneHistorySearch (s: CharSequence?, searchHistory: SearchHistory) {
         if (s?.isEmpty() == true && searchHistory.getSearchHistoryList().isNotEmpty()) {
+            updateUI(SearchStatus.SUCCESS)
             labelSearch.visibility = View.VISIBLE
             clearHistory.visibility = View.VISIBLE
             trackList.clear()
@@ -219,6 +222,14 @@ class SearchActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
 
         }
+    }
+
+    private fun showPlayer(track: Track) {
+        val displayPlayerActivityIntent = Intent(this, PlayerActivity::class.java)
+        val gson = Gson()
+        val serializerTrack = gson.toJson(track)
+        displayPlayerActivityIntent.putExtra(TRACK_IN_PLAYER, serializerTrack)
+        startActivity(displayPlayerActivityIntent)
     }
 }
 

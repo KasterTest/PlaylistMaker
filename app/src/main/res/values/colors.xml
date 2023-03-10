@@ -22,4 +22,7 @@
     <color name="background_search">#F5F5F5</color>
     <color name="background_search_night">#1A1B22</color>
     <color name="name_artist_gray">#AEAFB4</color>
+    <color name="background_button_player">#21222b</color>
+    <color name="background_button_player_night">#CCCCCC</color>
+    <color name="track_info_header_color">#AEAFB4</color>
 </resources>
