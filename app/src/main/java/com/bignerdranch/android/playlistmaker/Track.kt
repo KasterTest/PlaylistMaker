@@ -8,4 +8,5 @@ data class Track(val trackId: Int,
                  val releaseDate: String,
                  val primaryGenreName: String,
                  val country: String,
-                 val artworkUrl100: String)
+                 val artworkUrl100: String,
+                 val previewUrl: String)

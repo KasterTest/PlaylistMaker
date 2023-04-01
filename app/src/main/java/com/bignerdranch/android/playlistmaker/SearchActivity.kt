@@ -2,6 +2,8 @@ package com.bignerdranch.android.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -25,6 +27,8 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
         const val TRACK_IN_PLAYER = "TRACK_IN_PLAYER"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
     private val itunesBaseUrl = "https://itunes.apple.com"
@@ -36,6 +40,10 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var labelSearch : TextView
     private lateinit var clearHistory : Button
     private lateinit var searchHistory: SearchHistory
+    private lateinit var progressBar: ProgressBar
+    private val handler = Handler(Looper.getMainLooper())
+    private val searchRunnable = Runnable { sendResponse() }
+    private var isClickAllowed = true
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(itunesBaseUrl)
@@ -70,8 +78,10 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         adapter.itemClickListener = {position, track ->
+            if (clickDebounce()) {
             searchHistory.addTrack(track)
             showPlayer(track)
+            }
         }
 
 
@@ -85,6 +95,7 @@ class SearchActivity : AppCompatActivity() {
                 goneHistorySearch(s, searchHistory)
                 clearButton.visibility = clearButtonVisibility(s)
                 putInputSearchEditText = findViewById<EditText>(R.id.inputEditText).text.toString()
+                searchDebounce()
 
             }
             override fun afterTextChanged(s: Editable?) {
@@ -104,6 +115,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun sendResponse() {
         if (inputSearchEditText.text.isNotEmpty()) {
+            updateUI(SearchStatus.LOADING)
             itunesService.findTrack(inputSearchEditText.text.toString()).enqueue(object :
                 Callback<ItunesResponse> {
                 override fun onResponse(call: Call<ItunesResponse>,
@@ -132,6 +144,7 @@ class SearchActivity : AppCompatActivity() {
     private fun updateUI(searchStatus: SearchStatus) {
         when (searchStatus) {
             SearchStatus.CONNECTION_ERROR -> {
+                progressBar.visibility = View.GONE
                 placeholderMessage.visibility = View.VISIBLE
                 placeholderMessage.text = getString(R.string.something_went_wrong)
                 nothingSearchImage.visibility = View.VISIBLE
@@ -141,6 +154,7 @@ class SearchActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
             SearchStatus.EMPTY_SEARCH -> {
+                progressBar.visibility = View.GONE
                 placeholderMessage.visibility = View.VISIBLE
                 placeholderMessage.text = getString(R.string.nothing_found)
                 nothingSearchImage.visibility = View.VISIBLE
@@ -152,8 +166,29 @@ class SearchActivity : AppCompatActivity() {
                 placeholderMessage.visibility = View.GONE
                 nothingSearchImage.visibility = View.GONE
                 updateButton.visibility = View.GONE
+                progressBar.visibility = View.GONE
+            }
+            SearchStatus.LOADING -> {
+                placeholderMessage.visibility = View.GONE
+                nothingSearchImage.visibility = View.GONE
+                updateButton.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 
     private fun itemAssign () {
@@ -165,6 +200,7 @@ class SearchActivity : AppCompatActivity() {
         labelSearch = findViewById(R.id.label_search)
         clearHistory = findViewById(R.id.clear_history)
         searchHistory = SearchHistory(getSharedPreferences(SEARCH_HISTORY_KEY, MODE_PRIVATE))
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun setListener () {
@@ -232,7 +268,5 @@ class SearchActivity : AppCompatActivity() {
         startActivity(displayPlayerActivityIntent)
     }
 }
-
-
 
 

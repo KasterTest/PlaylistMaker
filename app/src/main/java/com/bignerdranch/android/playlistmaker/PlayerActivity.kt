@@ -1,9 +1,12 @@
 package com.bignerdranch.android.playlistmaker
 
-import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.Group
@@ -18,6 +21,14 @@ import java.util.*
 
 class PlayerActivity : AppCompatActivity() {
 
+    companion object {
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+        private const val UPDATE_DEBOUNCE_DELAY = 400L
+    }
+
     private lateinit var trackTitle: TextView
     private lateinit var artistName: TextView
     private lateinit var timePlaying: TextView
@@ -30,6 +41,11 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var albumTextViewGroup: Group
     private lateinit var currentTrack: Track
     private lateinit var backToSearch : TextView
+    private lateinit var playButton: ImageButton
+    private lateinit var mediaPlayer: MediaPlayer
+    private var playerState = STATE_DEFAULT
+    private val handler = Handler(Looper.getMainLooper())
+    private val playingTimeRunnable = Runnable { updatePlayingTime() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,10 +57,29 @@ class PlayerActivity : AppCompatActivity() {
         setListener()
         currentTrack = getTrack()
         fillPlayer(currentTrack)
+        mediaPlayer = MediaPlayer()
+        playButton.isEnabled = false
+        preparePlayer(currentTrack.previewUrl)
     }
     override fun onResume() {
         super.onResume()
         fillPlayer(currentTrack)
+    }
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+        handler.removeCallbacks(playingTimeRunnable)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mediaPlayer.stop()
+        handler.removeCallbacks(playingTimeRunnable)
     }
 
     private fun getTrack(): Track {
@@ -65,12 +100,12 @@ class PlayerActivity : AppCompatActivity() {
         albumImage = findViewById(R.id.albumImage)
         albumTextViewGroup = findViewById(R.id.album_text_view_group)
         backToSearch = findViewById(R.id.back_to_search)
+        playButton = findViewById(R.id.playButton)
     }
 
     private fun fillPlayer (track: Track){
         trackTitle.text = track.trackName
         artistName.text = track.artistName
-        timePlaying.text = "0:30" // Временно
         infoDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis).toString()
         if (track.collectionName == "${track.trackName} - Single") {
             albumTextViewGroup.visibility = View.GONE
@@ -94,16 +129,61 @@ class PlayerActivity : AppCompatActivity() {
         return dateTime.year.toString()
     }
 
-    private fun showSearchActivity() {
-        val showSearchActivity = Intent(this, SearchActivity::class.java)
-        startActivity(showSearchActivity)
-    }
-
     private fun setListener () {
         backToSearch.setOnClickListener() {
-          showSearchActivity()
+            onBackPressed()
         }
+        playButton.setOnClickListener {
+            playbackControl()
+        }
+    }
+
+    private fun preparePlayer(previewUrl: String) {
+        mediaPlayer.setDataSource(previewUrl)
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {
+            playButton.isEnabled = true
+            playerState = STATE_PREPARED
+        }
+        mediaPlayer.setOnCompletionListener {
+            playButton.setImageResource(R.drawable.button_play)
+            playerState = STATE_PREPARED
+            handler.removeCallbacks(playingTimeRunnable)
+            timePlaying.text = "00:00"
+        }
+    }
+    private fun startPlayer() {
+        mediaPlayer.start()
+        playButton.setImageResource(R.drawable.button_pause)
+        playerState = STATE_PLAYING
+        updatePlayingDebounce()
+    }
+
+    private fun pausePlayer() {
+        mediaPlayer.pause()
+        playButton.setImageResource(R.drawable.button_play)
+        playerState = STATE_PAUSED
 
     }
 
+    private fun playbackControl() {
+        when(playerState) {
+            STATE_PLAYING -> {
+                pausePlayer()
+                handler.removeCallbacks(playingTimeRunnable)
+            }
+            STATE_PREPARED, STATE_PAUSED -> {
+                startPlayer()
+            }
+        }
+    }
+    private fun  updatePlayingTime(){
+        timePlaying.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition).toString()
+        handler.postDelayed(playingTimeRunnable, UPDATE_DEBOUNCE_DELAY)
+    }
+
+    private fun updatePlayingDebounce() {
+        handler.removeCallbacks(playingTimeRunnable)
+        handler.postDelayed(playingTimeRunnable, UPDATE_DEBOUNCE_DELAY)
+    }
 }
