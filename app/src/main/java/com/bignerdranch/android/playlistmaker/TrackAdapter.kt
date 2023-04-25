@@ -2,6 +2,7 @@ package com.bignerdranch.android.playlistmaker
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bignerdranch.android.playlistmaker.domain.models.Track
 
 class TrackAdapter(private val trackList: List<Track>) : RecyclerView.Adapter<TrackViewHolder>() {
 

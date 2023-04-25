@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.playlistmaker.SearchHistory.Companion.SEARCH_HISTORY_KEY
+import com.bignerdranch.android.playlistmaker.domain.models.Track
+import com.bignerdranch.android.playlistmaker.presentation.ui.player.PlayerActivity
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +29,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
         const val TRACK_IN_PLAYER = "TRACK_IN_PLAYER"
+        const val KEY_TRACK = "KEY_TRACK"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
@@ -44,6 +47,7 @@ class SearchActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { sendResponse() }
     private var isClickAllowed = true
+
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(itunesBaseUrl)
@@ -208,7 +212,6 @@ class SearchActivity : AppCompatActivity() {
             sendResponse()
         }
 
-        // временный слушатель (потом уберем)
         inputSearchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 sendResponse()
@@ -264,9 +267,8 @@ class SearchActivity : AppCompatActivity() {
         val displayPlayerActivityIntent = Intent(this, PlayerActivity::class.java)
         val gson = Gson()
         val serializerTrack = gson.toJson(track)
-        displayPlayerActivityIntent.putExtra(TRACK_IN_PLAYER, serializerTrack)
+        getSharedPreferences(TRACK_IN_PLAYER, MODE_PRIVATE).edit().putString(KEY_TRACK, serializerTrack).apply()
         startActivity(displayPlayerActivityIntent)
     }
 }
-
 

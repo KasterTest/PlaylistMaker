@@ -1,4 +1,4 @@
-package com.bignerdranch.android.playlistmaker
+package com.bignerdranch.android.playlistmaker.domain.models
 
 data class Track(val trackId: Int,
                  val trackName: String,

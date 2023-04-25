@@ -1,5 +1,6 @@
 package com.bignerdranch.android.playlistmaker
 import android.content.SharedPreferences
+import com.bignerdranch.android.playlistmaker.domain.models.Track
 import com.google.gson.Gson
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
