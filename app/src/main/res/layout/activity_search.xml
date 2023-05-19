@@ -9,6 +9,7 @@
 
 
     <TextView
+        android:id="@+id/back_to_main"
         android:background="?attr/colorPrimaryVariant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
