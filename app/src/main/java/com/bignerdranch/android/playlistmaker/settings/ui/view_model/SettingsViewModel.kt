@@ -2,11 +2,6 @@ package com.bignerdranch.android.playlistmaker.settings.ui.view_model
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.*
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.bignerdranch.android.playlistmaker.application.App
-import com.bignerdranch.android.playlistmaker.creator.Creator
 import com.bignerdranch.android.playlistmaker.settings.domain.api.ISettingsInteractor
 import com.bignerdranch.android.playlistmaker.settings.domain.models.ThemeSettings
 import com.bignerdranch.android.playlistmaker.sharing.domain.api.ISharingInteractor
@@ -14,8 +9,7 @@ import com.bignerdranch.android.playlistmaker.sharing.domain.api.ISharingInterac
 class SettingsViewModel(
     private val settingsInteractor: ISettingsInteractor,
     private val sharingInteractor: ISharingInteractor,
-    private val application: App,
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
 
     private var darkTheme = false
@@ -59,16 +53,4 @@ class SettingsViewModel(
         )
     }
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[APPLICATION_KEY] as App
-                SettingsViewModel(
-                    settingsInteractor = Creator.provideSettingsInteractor(application),
-                    sharingInteractor = Creator.provideSharingInteractor(application),
-                    application = application,
-                )
-            }
-        }
-    }
 }

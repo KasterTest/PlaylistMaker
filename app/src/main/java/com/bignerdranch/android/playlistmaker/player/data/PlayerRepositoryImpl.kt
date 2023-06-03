@@ -26,8 +26,6 @@ class PlayerRepositoryImpl (private val url: String) : PlayerRepository {
     }
 
     override fun startPlayer() {
-        println("Пытаюсь стартовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        println(PlayerState.values())
         if (playerState == PlayerState.NOT_PREPARED){
             return
         }

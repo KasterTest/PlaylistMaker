@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.bignerdranch.android.playlistmaker.R
 import com.bignerdranch.android.playlistmaker.databinding.PlayerBinding
 import com.bignerdranch.android.playlistmaker.player.ui.models.PlayerActivityState
@@ -13,6 +12,8 @@ import com.bignerdranch.android.playlistmaker.player.ui.view_model.PlayerViewMod
 import com.bignerdranch.android.playlistmaker.utils.router.NavigationRouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -20,12 +21,9 @@ import java.util.*
 
 class PlayerActivity : AppCompatActivity() {
 
-
     private val trackModel by lazy { navigationRouter.getTrackInfo() }
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this, PlayerViewModel.getViewModelFactory(trackModel.previewUrl)
-        )[PlayerViewModel::class.java]
+    private val viewModel by viewModel<PlayerViewModel> {
+        parametersOf(trackModel.previewUrl)
     }
     private val binding by lazy { PlayerBinding.inflate(layoutInflater) }
     private val navigationRouter by lazy { NavigationRouter(this) }

@@ -7,10 +7,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bignerdranch.android.playlistmaker.*
 import com.bignerdranch.android.playlistmaker.databinding.ActivitySearchBinding
@@ -19,7 +17,7 @@ import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.search.ui.models.SearchUIState
 import com.bignerdranch.android.playlistmaker.search.ui.view_model.SearchViewModel
 import com.bignerdranch.android.playlistmaker.utils.router.NavigationRouter
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchActivity : AppCompatActivity() {
@@ -30,7 +28,7 @@ class SearchActivity : AppCompatActivity() {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private val viewModel by lazy { getViewModel() }
+    private val viewModel by viewModel<SearchViewModel>()
     private val navigationRouter by lazy { NavigationRouter(this) }
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { viewModel.searchTracks(binding.inputEditText.text.toString()) }
@@ -126,11 +124,6 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-
-    @JvmName("getViewModel1")
-    private fun getViewModel(): SearchViewModel {
-        return ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
-    }
 
     private fun showHistoryList (inputText: CharSequence?, tracks: List<TrackModel>) {
         binding.apply {

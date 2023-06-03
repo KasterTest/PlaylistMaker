@@ -26,10 +26,6 @@ class PlayerInteractor(private val playerRepository: PlayerRepository) {
         return playerRepository.updatePlayingTime()
     }
 
-//    fun setOnPreparedListener(listener: (() -> Unit)?) {
-//        playerRepository.setOnPreparedListener(listener)
-//    }
-
     fun setOnCompletionListener(listener: (() -> Unit)?) {
       playerRepository.setOnCompletionListener(listener)
     }

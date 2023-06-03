@@ -6,10 +6,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.bignerdranch.android.playlistmaker.creator.Creator
 import com.bignerdranch.android.playlistmaker.player.domain.impl.PlayerInteractor
 import com.bignerdranch.android.playlistmaker.player.domain.models.PlayerState
 import com.bignerdranch.android.playlistmaker.player.ui.models.PlayerActivityState
@@ -71,6 +67,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     fun playerStop() {
         playerInteractor.stopPlayer()
         handler.removeCallbacks(updatePlayingTimeRunnable)
+       // handler.removeCallbacksAndMessages(null)
     }
 
     fun playButtonClicked() {
@@ -83,13 +80,5 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
 
     companion object {
         private const val UPDATE_DEBOUNCE_DELAY = 500L
-
-        fun getViewModelFactory(trackUrl: String): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlayerViewModel(
-                    playerInteractor = Creator.provideMediaInteractor(trackUrl)
-                )
-            }
-        }
     }
 }

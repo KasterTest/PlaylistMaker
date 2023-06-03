@@ -2,7 +2,13 @@ package com.bignerdranch.android.playlistmaker.application
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.bignerdranch.android.playlistmaker.creator.Creator
+import com.bignerdranch.android.playlistmaker.di.*
+import com.bignerdranch.android.playlistmaker.settings.domain.api.ISettingsInteractor
+import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class App : Application() {
 
@@ -11,8 +17,15 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val settingsInteractor = Creator.provideSettingsInteractor(this)
-        darkTheme = settingsInteractor.getThemeSettings().darkTheme
+        startKoin {
+            androidLogger(Level.DEBUG)
+            androidContext(this@App)
+            modules(dataModule, domainModule, repositoryModule, viewModelModule)
+        }
+
+        darkTheme = getKoin()
+            .get<ISettingsInteractor>()
+            .getThemeSettings().darkTheme
 
         AppCompatDelegate.setDefaultNightMode(
             if (darkTheme) {

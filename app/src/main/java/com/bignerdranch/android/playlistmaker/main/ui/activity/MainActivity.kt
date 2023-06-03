@@ -4,21 +4,18 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.lifecycle.ViewModelProvider
 import com.bignerdranch.android.playlistmaker.MediaLibraryActivity
 import com.bignerdranch.android.playlistmaker.databinding.ActivityMainBinding
 import com.bignerdranch.android.playlistmaker.main.ui.models.NavigationState
 import com.bignerdranch.android.playlistmaker.main.ui.view_model.MainViewModel
 import com.bignerdranch.android.playlistmaker.search.ui.activity.SearchActivity
 import com.bignerdranch.android.playlistmaker.settings.ui.activity.SettingsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this, MainViewModel.getViewModelFactory()
-        )[MainViewModel::class.java] }
+    private val viewModel by viewModel<MainViewModel>()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
