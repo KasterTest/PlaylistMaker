@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import com.bignerdranch.android.playlistmaker.MediaLibraryActivity
+import com.bignerdranch.android.playlistmaker.medialibrary.ui.activity.MediaLibraryActivity
 import com.bignerdranch.android.playlistmaker.databinding.ActivityMainBinding
 import com.bignerdranch.android.playlistmaker.main.ui.models.NavigationState
 import com.bignerdranch.android.playlistmaker.main.ui.view_model.MainViewModel
