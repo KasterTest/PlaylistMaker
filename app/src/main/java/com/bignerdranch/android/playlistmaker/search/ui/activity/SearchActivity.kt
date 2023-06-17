@@ -146,7 +146,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showSearchList (tracks: List<TrackModel>) {
         binding.apply {
             placeholderMessage.visibility = View.GONE
