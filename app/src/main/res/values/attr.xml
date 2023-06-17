@@ -3,4 +3,6 @@
     <attr name="text_track" format="reference"/>
     <attr name="text_name_artist_track" format="reference"/>
     <attr name="text_update_button" format="reference"/>
+    <attr name="selected_color_bottom_nav_item" format="reference"/>
+    <attr name="unselected_color_bottom_nav_item" format="reference"/>
 </resources>

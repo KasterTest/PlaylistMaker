@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.App"
+        android:name=".core.application.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,29 +23,30 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".search.ui.activity.SearchActivity"
+            android:name=".search.ui.fragment.SearchFragment"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".settings.ui.activity.SettingsActivity"
+            android:name=".settings.ui.fragment.SettingsFragment"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".medialibrary.ui.activity.MediaLibraryActivity"
+            android:name=".medialibrary.ui.root_fragment.MediaLibraryFragment"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".main.ui.activity.MainActivity"
-            android:exported="true">
+            android:name=".core.root.RootActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
