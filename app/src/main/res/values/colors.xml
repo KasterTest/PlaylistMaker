@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="color_status_bar_search_activity">#FFFFFFFF</color>
+    <color name="color_status_bar_search_activity">#ababab</color>
     <color name="color_text_main_menu">#1A1B22</color>
     <color name="button_background_main">#ffffff</color>
     <color name="settings_menu_background">#ffffff</color>
@@ -27,4 +27,6 @@
     <color name="track_info_header_color">#AEAFB4</color>
     <color name="progress_bar_color">#6200EE</color>
     <color name="status_bar_color_media_library">#F5F5F5</color>
+    <color name="selected_color_bottom_nav_item">#3772E7</color>
+    <color name="unselected_color_bottom_nav_item">#1A1B22</color>
 </resources>

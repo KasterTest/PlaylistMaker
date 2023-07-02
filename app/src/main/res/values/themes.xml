@@ -11,7 +11,8 @@
         <item name="colorSwitchThumbNormal">@color/white</item>
         <item name="colorOnSecondary">@color/color_text_main_menu</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/background_search</item>
+        <item name="android:statusBarColor">?attr/colorOnPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorOnPrimary</item>
         <item name="editTextColor">@color/edit_text_color</item>
         <!-- Customize your theme here. -->
         <item name="colorOnSurfaceVariant">@color/image_color</item>

@@ -52,6 +52,5 @@
         <!-- Customize your theme here. -->
         <item name="editTextColor">@color/edit_text_color_night</item>
         <item name="imageButtonStyle">@color/image_color_night</item>
-
     </style>
 </resources>

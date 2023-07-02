@@ -9,9 +9,9 @@ import com.bignerdranch.android.playlistmaker.databinding.PlayerBinding
 import com.bignerdranch.android.playlistmaker.player.ui.models.PlayerActivityState
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.player.ui.view_model.PlayerViewModel
-import com.bignerdranch.android.playlistmaker.utils.router.NavigationRouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -21,12 +21,13 @@ import java.util.*
 
 class PlayerActivity : AppCompatActivity() {
 
-    private val trackModel by lazy { navigationRouter.getTrackInfo() }
+
+    private val trackModel by lazy { getTrackFromBundle() }
+
     private val viewModel by viewModel<PlayerViewModel> {
         parametersOf(trackModel.previewUrl)
     }
     private val binding by lazy { PlayerBinding.inflate(layoutInflater) }
-    private val navigationRouter by lazy { NavigationRouter(this) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +59,9 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.playerStop()
     }
 
+    private fun getTrackFromBundle(): TrackModel {
+        return Gson().fromJson(intent.getStringExtra("TRACK_INFO"), TrackModel::class.java)
+    }
     private fun observeViewModel() {
         viewModel.state.observe(this) { state ->
             when (state) {

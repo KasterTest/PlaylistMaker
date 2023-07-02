@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context="com.bignerdranch.android.playlistmaker.medialibrary.ui.root_fragment.MediaLibraryFragment">
+
+    <TextView
+        android:id="@+id/navigation_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/media_library"
+        android:textColor="?attr/colorOnSecondary"
+        android:fontFamily="@font/yandex_sans_text_medium"
+        android:textSize="@dimen/button_main_size"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding = "28dp">
+    </TextView>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        style="@style/table_layout_media_library"
+        app:tabIndicatorFullWidth="true"
+        app:tabTextAppearance="@style/table_layout_media_library"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
