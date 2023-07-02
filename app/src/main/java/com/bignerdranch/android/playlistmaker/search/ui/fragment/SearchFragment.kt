@@ -10,14 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bignerdranch.android.playlistmaker.*
+import com.bignerdranch.android.playlistmaker.core.root.RootActivity
 import com.bignerdranch.android.playlistmaker.search.data.storage.TrackSearchState
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.search.ui.models.SearchUIState
 import com.bignerdranch.android.playlistmaker.search.ui.view_model.SearchViewModel
 import com.bignerdranch.android.playlistmaker.databinding.FragmentSearchBinding
+import com.bignerdranch.android.playlistmaker.utils.debounce
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,16 +30,16 @@ class SearchFragment : Fragment() {
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 200L
     }
 
 
     private lateinit var binding: FragmentSearchBinding
+    private lateinit var onTrackClickDebounce: (TrackModel) -> Unit
 
     private val viewModel by viewModel<SearchViewModel>()
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { viewModel.searchTracks(binding.inputEditText.text.toString()) }
-    private var isClickAllowed = true
     private val trackList = ArrayList<TrackModel>()
     private val trackAdapter = TrackAdapter(trackList)
 
@@ -55,6 +58,9 @@ class SearchFragment : Fragment() {
         configureUI()
         setupListeners()
         observeViewModel()
+        onTrackClickDebounce = debounce<TrackModel>(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
+            navController(track)
+        }
     }
 
     override fun onDestroy() {
@@ -70,18 +76,6 @@ class SearchFragment : Fragment() {
         binding.recyclerView.apply {
             adapter = trackAdapter
             layoutManager = LinearLayoutManager(context)
-        }
-    }
-
-    private fun observeViewModel() {
-        viewModel.trackSearchState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is TrackSearchState.Error -> updateUI(SearchUIState.CONNECTION_ERROR)
-                TrackSearchState.Loading -> updateUI(SearchUIState.LOADING)
-                TrackSearchState.NotFound -> updateUI(SearchUIState.EMPTY_SEARCH)
-                is TrackSearchState.StateVisibleHistory -> showHistoryList(binding.inputEditText.text.toString(), state.tracks)
-                is TrackSearchState.Success -> showSearchList(state.tracks)
-            }
         }
     }
 
@@ -102,15 +96,25 @@ class SearchFragment : Fragment() {
 
 
         trackAdapter.itemClickListener = { position, track ->
-            if (isClickAllowed) {
-                isClickAllowed = false
-                handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-                viewModel.addTrackToSearchHistory(track)
-                navController(track)
-            }
+            (activity as RootActivity).animateBottomNavigationView()
+            onTrackClickDebounce(track)
+            viewModel.addTrackToSearchHistory(track)
 
         }
     }
+
+    private fun observeViewModel() {
+        viewModel.trackSearchState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is TrackSearchState.Error -> updateUI(SearchUIState.CONNECTION_ERROR)
+                TrackSearchState.Loading -> updateUI(SearchUIState.LOADING)
+                TrackSearchState.NotFound -> updateUI(SearchUIState.EMPTY_SEARCH)
+                is TrackSearchState.StateVisibleHistory -> showHistoryList(binding.inputEditText.text.toString(), state.tracks)
+                is TrackSearchState.Success -> showSearchList(state.tracks)
+            }
+        }
+    }
+
     private fun navController(track: TrackModel) {
         val bundle = Bundle().apply {
             putString("TRACK_INFO", Gson().toJson(track))
@@ -121,9 +125,6 @@ class SearchFragment : Fragment() {
             bundle
         )
     }
-
-
-
 
     private fun showHistoryList (inputText: CharSequence?, tracks: List<TrackModel>) {
         binding.apply {
@@ -251,4 +252,3 @@ class SearchFragment : Fragment() {
     }
 
 }
-

@@ -1,6 +1,7 @@
 package com.bignerdranch.android.playlistmaker.core.root
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -20,5 +21,14 @@ class RootActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+    }
+
+    fun animateBottomNavigationView() {
+        binding.bottomNavigationView.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNavigationView.visibility = View.VISIBLE
     }
 }

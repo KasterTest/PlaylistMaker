@@ -1,19 +1,20 @@
 package com.bignerdranch.android.playlistmaker.player.ui.view_model
 
-
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bignerdranch.android.playlistmaker.player.domain.impl.PlayerInteractor
 import com.bignerdranch.android.playlistmaker.player.domain.models.PlayerState
 import com.bignerdranch.android.playlistmaker.player.ui.models.PlayerActivityState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
 
-    private val handler: Handler = Handler(Looper.getMainLooper())
+    private var timerJob: Job? = null
 
     init {
         setCompletionPlayerListener()
@@ -26,33 +27,36 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
         super.onCleared()
         playerInteractor.pausePlayer()
         playerInteractor.stopPlayer()
-        handler.removeCallbacksAndMessages(null)
-    }
-
-    private val updatePlayingTimeRunnable = object : Runnable {
-        override fun run() {
-            getCurrentPosition()
-            handler.postDelayed(this, UPDATE_DEBOUNCE_DELAY)
-        }
     }
 
     private fun setCompletionPlayerListener() {
         playerInteractor.setOnCompletionListener {
             _state.postValue(PlayerActivityState.StateOnComplitionTrack)
-            handler.removeCallbacks(updatePlayingTimeRunnable)
+            timerJob?.cancel()
         }
     }
 
     private fun startPlayer() {
         playerInteractor.startPlayer()
         _state.postValue(PlayerActivityState.StatePlayerPlay)
-        handler.postDelayed(updatePlayingTimeRunnable, UPDATE_DEBOUNCE_DELAY)
+        startTimer()
+    }
+
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            while (true) {
+                delay(UPDATE_DEBOUNCE_DELAY)
+                getCurrentPosition()
+            }
+
+
+        }
     }
 
     fun pausePlayer() {
         playerInteractor.pausePlayer()
         _state.postValue(PlayerActivityState.StatePlayerPause)
-        handler.removeCallbacks(updatePlayingTimeRunnable)
+        timerJob?.cancel()
     }
 
     private fun getCurrentPosition() {
@@ -60,14 +64,12 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     }
 
     fun playerRelease() {
+        playerInteractor.stopPlayer()
         playerInteractor.releasePlayer()
-        handler.removeCallbacks(updatePlayingTimeRunnable)
     }
 
     fun playerStop() {
         playerInteractor.stopPlayer()
-        handler.removeCallbacks(updatePlayingTimeRunnable)
-       // handler.removeCallbacksAndMessages(null)
     }
 
     fun playButtonClicked() {
@@ -79,6 +81,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     }
 
     companion object {
-        private const val UPDATE_DEBOUNCE_DELAY = 500L
+        private const val UPDATE_DEBOUNCE_DELAY = 300L
     }
 }
