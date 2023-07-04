@@ -63,15 +63,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
         _state.postValue(PlayerActivityState.StatePlayingPosition(playerInteractor.updatePlayingTime()))
     }
 
-    fun playerRelease() {
-        playerInteractor.stopPlayer()
-        playerInteractor.releasePlayer()
-    }
-
-    fun playerStop() {
-        playerInteractor.stopPlayer()
-    }
-
     fun playButtonClicked() {
         when (playerInteractor.getPlayerState()) {
             PlayerState.PLAYING -> pausePlayer()

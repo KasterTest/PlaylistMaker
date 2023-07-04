@@ -49,15 +49,11 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.pausePlayer()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.playerRelease()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
-        viewModel.playerStop()
+        viewModel.pausePlayer()
     }
+
 
     private fun getTrackFromBundle(): TrackModel {
         return Gson().fromJson(intent.getStringExtra("TRACK_INFO"), TrackModel::class.java)
