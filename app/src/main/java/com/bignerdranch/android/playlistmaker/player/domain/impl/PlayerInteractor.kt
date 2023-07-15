@@ -18,10 +18,6 @@ class PlayerInteractor(private val playerRepository: PlayerRepository) {
         playerRepository.pausePlayer()
     }
 
-    fun releasePlayer() {
-        playerRepository.releasePlayer()
-    }
-
     fun updatePlayingTime(): Int {
         return playerRepository.updatePlayingTime()
     }

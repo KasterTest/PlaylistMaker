@@ -10,8 +10,6 @@ interface PlayerRepository {
 
     fun pausePlayer()
 
-    fun releasePlayer()
-
     fun updatePlayingTime () : Int
 
     fun setOnPreparedListener(listener: (() -> Unit)?)

@@ -4,24 +4,22 @@ import com.bignerdranch.android.playlistmaker.search.data.storage.TrackSearchSta
 import com.bignerdranch.android.playlistmaker.search.domain.api.SearchRepository
 import com.bignerdranch.android.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
+import kotlinx.coroutines.flow.Flow
 
 class SearchInteractor (private val searchRepository: SearchRepository, private val trackSearchInteractor: TrackSearchInteractor)
     {
 
-    fun getSearchHistoryList() : List<TrackModel> {
-        return searchRepository.getSearchHistoryList()
-    }
+        fun getSearchHistoryList() : List<TrackModel> {
+            return searchRepository.getSearchHistoryList()
+        }
 
-    fun clearSearchHistory() {
-        searchRepository.clearSearchHistory()
-    }
+        fun clearSearchHistory() {
+            searchRepository.clearSearchHistory()
+        }
 
-    fun addTrackToSearchHistory(track: TrackModel) {
-        searchRepository.addTrackToSearchHistory(track)
+        fun addTrackToSearchHistory(track: TrackModel) {
+            searchRepository.addTrackToSearchHistory(track)
+        }
+        suspend fun searchTracks(term: String): Flow<TrackSearchState> =
+                trackSearchInteractor.searchTracks(term)
     }
-
-    fun searchTracks(term: String, callback: (TrackSearchState) -> Unit) {
-        trackSearchInteractor.searchTracks(term, callback)
-    }
-
-}

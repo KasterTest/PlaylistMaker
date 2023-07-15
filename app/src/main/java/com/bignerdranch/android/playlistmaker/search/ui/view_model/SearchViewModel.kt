@@ -3,9 +3,11 @@ package com.bignerdranch.android.playlistmaker.search.ui.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bignerdranch.android.playlistmaker.search.data.storage.TrackSearchState
 import com.bignerdranch.android.playlistmaker.search.domain.impl.SearchInteractor
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
+import kotlinx.coroutines.launch
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
 
@@ -16,10 +18,12 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         get() = _trackSearchState
 
     fun searchTracks(term: String) {
-        _trackSearchState.value = TrackSearchState.Loading
+        viewModelScope.launch {
+            _trackSearchState.value = TrackSearchState.Loading
 
-        searchInteractor.searchTracks(term) { state ->
-            _trackSearchState.postValue(state)
+            searchInteractor.searchTracks(term).collect { state ->
+                _trackSearchState.value = state
+            }
         }
     }
 

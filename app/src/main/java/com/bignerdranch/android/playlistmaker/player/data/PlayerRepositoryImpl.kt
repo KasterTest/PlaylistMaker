@@ -42,10 +42,6 @@ class PlayerRepositoryImpl (private val url: String) : PlayerRepository {
         playerState = PlayerState.PAUSED
     }
 
-    override fun releasePlayer() {
-        mediaPlayer.release()
-    }
-
     override fun updatePlayingTime(): Int {
         return mediaPlayer.currentPosition
     }
