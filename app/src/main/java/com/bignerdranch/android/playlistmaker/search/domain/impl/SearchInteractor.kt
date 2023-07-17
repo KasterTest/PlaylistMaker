@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 class SearchInteractor (private val searchRepository: SearchRepository, private val trackSearchInteractor: TrackSearchInteractor)
     {
 
-        fun getSearchHistoryList() : List<TrackModel> {
+        suspend fun getSearchHistoryList() : List<TrackModel> {
             return searchRepository.getSearchHistoryList()
         }
 
@@ -17,7 +17,7 @@ class SearchInteractor (private val searchRepository: SearchRepository, private 
             searchRepository.clearSearchHistory()
         }
 
-        fun addTrackToSearchHistory(track: TrackModel) {
+        suspend fun addTrackToSearchHistory(track: TrackModel) {
             searchRepository.addTrackToSearchHistory(track)
         }
         suspend fun searchTracks(term: String): Flow<TrackSearchState> =

@@ -65,6 +65,8 @@ class PlayerActivity : AppCompatActivity() {
                 PlayerActivityState.StatePlayerPause -> setButtonToPlay()
                 PlayerActivityState.StatePlayerPlay -> setButtonToPause()
                 is PlayerActivityState.StatePlayingPosition -> setCurrentTime(state.position)
+                PlayerActivityState.StateTrackFavorite -> setButtonLike()
+                PlayerActivityState.StateTrackUnFavorite -> setButtonUnLike()
             }
 
         }
@@ -82,10 +84,20 @@ class PlayerActivity : AppCompatActivity() {
         binding.playButton.setOnClickListener {
             viewModel.playButtonClicked()
         }
+
+        binding.buttonLike.setOnClickListener() {
+            viewModel.buttonLikeClicked(trackModel)
+        }
     }
 
     private fun fillPlayer (track: TrackModel){
         with(track) {
+            if (track.isFavorite) {
+                setButtonLikeImage()
+            }
+            else {
+                setButtonUnLikeImage()
+            }
             binding.trackTitle.text = trackName
             binding.artistName.text = artistName
             binding.infoDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis)
@@ -120,5 +132,26 @@ class PlayerActivity : AppCompatActivity() {
     fun setStartTime() {
         binding.timePlaying.text = "00:00"
     }
+
+    fun setButtonLike() {
+        setButtonLikeImage()
+    }
+
+    fun setButtonUnLike() {
+        setButtonUnLikeImage()
+    }
+
+    private fun setButtonLikeImage() {
+        binding.buttonLike.setImageResource(R.drawable.like)
+        trackModel.isFavorite = true
+    }
+
+    fun setButtonUnLikeImage() {
+        binding.buttonLike.setImageResource(R.drawable.unlike)
+        trackModel.isFavorite = false
+    }
+
+
+
 
 }

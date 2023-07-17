@@ -1,20 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?attr/colorOnPrimary">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.FavoriteTracksFragment">
+
 
     <ImageView
         android:id="@+id/nothing_tracks"
         style="@style/media_library_placeholder_image"
-        android:layout_marginTop="120dp" />
+        app:layout_constraintBottom_toTopOf="@+id/nothing_tracks_placeholderMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/nothing_tracks_placeholderMessage"
+        style="@style/media_library_placeholder_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/media_library_placeholder_messages"
-        android:text="@string/library_empty"/>
-</LinearLayout>
+        android:text="@string/library_empty"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        tools:ignore="MissingConstraints"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="nothing_tracks, nothing_tracks_placeholderMessage" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tracks_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+
+        tools:itemCount="100"
+        tools:listitem="@layout/track_item" />
+</androidx.constraintlayout.widget.ConstraintLayout>

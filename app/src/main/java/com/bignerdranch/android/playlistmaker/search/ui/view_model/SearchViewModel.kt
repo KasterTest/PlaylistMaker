@@ -28,15 +28,16 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     init {
-        historyList.addAll(searchInteractor.getSearchHistoryList())
-        _trackSearchState.postValue(TrackSearchState.StateVisibleHistory(historyList))
+        getSearchHistoryList()
     }
 
     fun getSearchHistoryList() {
-        historyList.clear()
-        historyList.addAll(searchInteractor.getSearchHistoryList())
-        _trackSearchState.postValue(TrackSearchState.StateVisibleHistory(historyList))
-
+        viewModelScope.launch {
+            val list = searchInteractor.getSearchHistoryList()
+            historyList.clear()
+            historyList.addAll(list)
+            _trackSearchState.postValue(TrackSearchState.StateVisibleHistory(historyList))
+        }
     }
 
     fun clearSearchHistory() {
@@ -46,7 +47,10 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     fun addTrackToSearchHistory(track: TrackModel) {
-        searchInteractor.addTrackToSearchHistory(track)
+        viewModelScope.launch {
+            searchInteractor.addTrackToSearchHistory(track)
+            _trackSearchState.postValue(TrackSearchState.StateVisibleHistory(historyList))
+        }
     }
 
 

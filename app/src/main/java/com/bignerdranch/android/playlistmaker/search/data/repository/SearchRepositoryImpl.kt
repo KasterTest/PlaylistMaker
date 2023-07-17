@@ -9,7 +9,7 @@ import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 
 class SearchRepositoryImpl (private val tracksStorage: TrackStorageRepository) : SearchRepository {
 
-    override fun getSearchHistoryList(): List<TrackModel> {
+    override suspend fun getSearchHistoryList(): List<TrackModel> {
         return tracksStorage.readHistory()
     }
 
@@ -17,7 +17,7 @@ class SearchRepositoryImpl (private val tracksStorage: TrackStorageRepository) :
         tracksStorage.clearHistory()
     }
 
-    override fun addTrackToSearchHistory(track: TrackModel) {
+    override suspend fun addTrackToSearchHistory(track: TrackModel) {
         var historyList = getSearchHistoryList()
         historyList = historyList.toMutableList()
         if (historyList.contains(track)) {

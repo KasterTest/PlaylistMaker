@@ -1,5 +1,8 @@
 package com.bignerdranch.android.playlistmaker.core.di
 
+import com.bignerdranch.android.playlistmaker.medialibrary.data.converters.TracksDbConvertor
+import com.bignerdranch.android.playlistmaker.medialibrary.data.impl.FavoriteTracksRepositoryImpl
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.FavoriteTracksRepository
 import com.bignerdranch.android.playlistmaker.player.data.PlayerRepositoryImpl
 import com.bignerdranch.android.playlistmaker.player.domain.api.PlayerRepository
 import com.bignerdranch.android.playlistmaker.search.data.repository.SearchRepositoryImpl
@@ -23,6 +26,11 @@ val repositoryModule = module {
         SettingsRepository(storage = get())
     }
 
+    single { TracksDbConvertor() }
+
+    single<FavoriteTracksRepository> {
+        FavoriteTracksRepositoryImpl(get(), get())
+    }
 
 }
 

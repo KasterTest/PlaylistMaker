@@ -6,5 +6,7 @@ sealed class PlayerActivityState {
     object StatePlayerPlay : PlayerActivityState()
     object StatePlayerPause : PlayerActivityState()
     object StateOnComplitionTrack : PlayerActivityState()
+    object StateTrackFavorite : PlayerActivityState()
+    object StateTrackUnFavorite : PlayerActivityState()
 
 }
