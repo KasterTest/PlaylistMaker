@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -33,7 +34,7 @@ class FavoriteTracksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
-        observeViewModel()
+        observeOnContentState()
         viewModel.fillData()
         onTrackClickDebounce = debounce<TrackModel>(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
             navigateToPlayer(track)
@@ -55,7 +56,7 @@ class FavoriteTracksFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeOnContentState() {
         viewModel.observeContentState().observe(viewLifecycleOwner) { contentState ->
             render(contentState)
         }
@@ -69,16 +70,16 @@ class FavoriteTracksFragment : Fragment() {
     }
 
     private fun showContent(list: List<TrackModel>) {
-        binding.placeholder.visibility = View.GONE
-        binding.tracksList.visibility = View.VISIBLE
+        binding.placeholder.isVisible = false
+        binding.tracksList.isVisible = true
         trackList.clear()
         trackList.addAll(list)
         trackAdapter.notifyDataSetChanged()
     }
 
     private fun showMessage() {
-        binding.placeholder.visibility = View.VISIBLE
-        binding.tracksList.visibility = View.GONE
+        binding.placeholder.isVisible = true
+        binding.tracksList.isVisible = false
     }
 
     private fun navigateToPlayer(track: TrackModel) {
