@@ -5,10 +5,10 @@ import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 
 interface SearchRepository {
 
-    fun getSearchHistoryList() : List<TrackModel>
+    suspend fun getSearchHistoryList() : List<TrackModel>
 
     fun clearSearchHistory()
 
-    fun addTrackToSearchHistory(track: TrackModel)
+    suspend fun addTrackToSearchHistory(track: TrackModel)
 
 }

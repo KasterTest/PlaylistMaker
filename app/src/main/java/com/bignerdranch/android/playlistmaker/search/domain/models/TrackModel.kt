@@ -1,6 +1,6 @@
 package com.bignerdranch.android.playlistmaker.search.domain.models
 
-data class TrackModel(val trackId: Int,
+data class TrackModel(val trackId: String,
                       val trackName: String,
                       val artistName: String,
                       val trackTimeMillis: Int,
@@ -9,4 +9,5 @@ data class TrackModel(val trackId: Int,
                       val primaryGenreName: String,
                       val country: String,
                       val artworkUrl100: String,
-                      val previewUrl: String)
+                      val previewUrl: String,
+                      var isFavorite: Boolean = false )

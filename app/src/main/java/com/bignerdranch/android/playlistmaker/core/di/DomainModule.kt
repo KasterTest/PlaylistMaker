@@ -1,5 +1,7 @@
 package com.bignerdranch.android.playlistmaker.core.di
 
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.FavoriteTracksInteractor
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.impl.FavoriteTracksInteractorImpl
 import com.bignerdranch.android.playlistmaker.player.domain.impl.PlayerInteractor
 import com.bignerdranch.android.playlistmaker.search.data.network.TrackSearchRepository
 import com.bignerdranch.android.playlistmaker.search.domain.api.TrackSearchInteractor
@@ -31,8 +33,11 @@ val domainModule = module {
     }
 
     single<TrackSearchInteractor> {
-        TrackSearchRepository()
+        TrackSearchRepository(favoriteTracksDao = get())
     }
 
+    single<FavoriteTracksInteractor> {
+       FavoriteTracksInteractorImpl(favoriteTracksRepository = get())
+    }
 
 }

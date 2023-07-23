@@ -74,6 +74,8 @@
         <item name="android:fontFamily">@font/yandex_sans_display_regular</item>
     </style>
     <style name="table_layout_media_library" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:background">?attr/colorOnPrimary</item>

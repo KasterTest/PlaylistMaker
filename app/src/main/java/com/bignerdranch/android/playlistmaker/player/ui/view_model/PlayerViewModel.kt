@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.FavoriteTracksInteractor
 import com.bignerdranch.android.playlistmaker.player.domain.impl.PlayerInteractor
 import com.bignerdranch.android.playlistmaker.player.domain.models.PlayerState
 import com.bignerdranch.android.playlistmaker.player.ui.models.PlayerActivityState
+import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
+class PlayerViewModel(private val playerInteractor: PlayerInteractor,
+                      private val favoriteTrackInteractor: FavoriteTracksInteractor) : ViewModel() {
 
     private var timerJob: Job? = null
 
@@ -70,6 +73,30 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
             else -> startPlayer()
         }
     }
+
+    fun buttonLikeClicked(track: TrackModel){
+        if (track.isFavorite) {
+            unLikeTrack(track)
+        }
+        else {
+            likeTrack(track)
+        }
+    }
+
+    fun likeTrack(track: TrackModel){
+        _state.postValue(PlayerActivityState.StateTrackFavorite)
+        viewModelScope.launch{
+            favoriteTrackInteractor.toFavoriteTrack(track)
+        }
+    }
+
+    fun unLikeTrack(track: TrackModel) {
+        _state.postValue(PlayerActivityState.StateTrackUnFavorite)
+        viewModelScope.launch{
+            favoriteTrackInteractor.unFavoriteTrack(track)
+        }
+    }
+
 
     companion object {
         private const val UPDATE_DEBOUNCE_DELAY = 300L

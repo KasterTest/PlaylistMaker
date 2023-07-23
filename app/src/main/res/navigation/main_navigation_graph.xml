@@ -28,5 +28,18 @@
         android:id="@+id/mediaLibraryFragment"
         android:name="com.bignerdranch.android.playlistmaker.medialibrary.ui.root_fragment.MediaLibraryFragment"
         android:label="MediaLibraryFragment"
-        tools:layout="@layout/fragment_medialibrary"/>
+        tools:layout="@layout/fragment_medialibrary">
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_playerActivity"
+            app:destination="@id/playerActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteTracksFragment"
+        android:name="com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.FavoriteTracksFragment"
+        android:label="FavoriteTracksFragment"
+        tools:layout="@layout/favorite_tracks_fragment">
+        <action
+            android:id="@+id/action_favoriteTracksFragment_to_playerActivity"
+            app:destination="@id/playerActivity" />
+    </fragment>
 </navigation>
