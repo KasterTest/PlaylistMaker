@@ -86,14 +86,14 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
     fun likeTrack(track: TrackModel){
         _state.postValue(PlayerActivityState.StateTrackFavorite)
         viewModelScope.launch{
-            favoriteTrackInteractor.toFavoriteTrack(track)
+            favoriteTrackInteractor.addToFavoriteTracks(track)
         }
     }
 
     fun unLikeTrack(track: TrackModel) {
         _state.postValue(PlayerActivityState.StateTrackUnFavorite)
         viewModelScope.launch{
-            favoriteTrackInteractor.unFavoriteTrack(track)
+            favoriteTrackInteractor.removeFromFavoriteTracks(track)
         }
     }
 
