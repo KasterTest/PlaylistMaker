@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.FavoriteTracksFragment
-import com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.PlaylistsFragment
+import com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.favorite_tracks.FavoriteTracksFragment
+import com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.playlists.PlaylistsFragment
 
 class MediaLibraryViewPagerAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

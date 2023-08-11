@@ -21,7 +21,19 @@ class RootActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.playerFragment, R.id.newPlaylistFragment, R.id.bottomSheet -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+
+                else -> {
+                    binding.bottomNavigationView.visibility = View.VISIBLE }
+            }
+        }
     }
+
 
     fun animateBottomNavigationView() {
         binding.bottomNavigationView.visibility = View.GONE

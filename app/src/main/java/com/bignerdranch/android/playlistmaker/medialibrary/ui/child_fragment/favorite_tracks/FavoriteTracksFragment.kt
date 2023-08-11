@@ -1,4 +1,4 @@
-package com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment
+package com.bignerdranch.android.playlistmaker.medialibrary.ui.child_fragment.favorite_tracks
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +12,10 @@ import com.bignerdranch.android.playlistmaker.core.root.RootActivity
 import com.bignerdranch.android.playlistmaker.databinding.FavoriteTracksFragmentBinding
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.models.FavoriteState
 import com.bignerdranch.android.playlistmaker.medialibrary.ui.view_model.FavoriteTracksViewModel
+import com.bignerdranch.android.playlistmaker.player.ui.fragment.PlayerFragment
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.search.ui.fragment.TrackAdapter
 import com.bignerdranch.android.playlistmaker.utils.debounce
-import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteTracksFragment : Fragment() {
@@ -83,11 +83,9 @@ class FavoriteTracksFragment : Fragment() {
     }
 
     private fun navigateToPlayer(track: TrackModel) {
-        val bundle = Bundle().apply {
             track.isFavorite = true
-            putString("TRACK_INFO", Gson().toJson(track))
-        }
-        findNavController().navigate(R.id.action_mediaLibraryFragment_to_playerActivity, bundle)
+            findNavController().navigate(R.id.action_mediaLibraryFragment_to_playerFragment,
+                PlayerFragment.createArgs(track))
     }
 
     companion object {

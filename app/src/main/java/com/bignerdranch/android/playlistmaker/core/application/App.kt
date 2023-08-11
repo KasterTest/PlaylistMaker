@@ -7,6 +7,7 @@ import com.bignerdranch.android.playlistmaker.core.di.domainModule
 import com.bignerdranch.android.playlistmaker.core.di.repositoryModule
 import com.bignerdranch.android.playlistmaker.core.di.viewModelModule
 import com.bignerdranch.android.playlistmaker.settings.domain.api.ISettingsInteractor
+import com.markodevcic.peko.PermissionRequester
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,6 +26,8 @@ class App : Application() {
             androidContext(this@App)
             modules(dataModule, domainModule, repositoryModule, viewModelModule)
         }
+
+        PermissionRequester.initialize(applicationContext)
 
         darkTheme = getKoin()
             .get<ISettingsInteractor>()

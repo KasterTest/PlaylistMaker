@@ -20,8 +20,8 @@ import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.search.ui.models.SearchUIState
 import com.bignerdranch.android.playlistmaker.search.ui.view_model.SearchViewModel
 import com.bignerdranch.android.playlistmaker.databinding.FragmentSearchBinding
+import com.bignerdranch.android.playlistmaker.player.ui.fragment.PlayerFragment
 import com.bignerdranch.android.playlistmaker.utils.debounce
-import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -114,15 +114,10 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
     private fun navController(track: TrackModel) {
-        val bundle = Bundle().apply {
-            putString("TRACK_INFO", Gson().toJson(track))
-        }
-
         findNavController().navigate(
-            R.id.action_searchFragment_to_playerActivity,
-            bundle
+            R.id.action_searchFragment_to_playerFragment,
+            PlayerFragment.createArgs(track)
         )
     }
 

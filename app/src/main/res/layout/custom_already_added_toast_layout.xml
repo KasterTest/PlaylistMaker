@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:id="@+id/toast_container">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/button_card_parent"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="7dp"
+            app:cardElevation="0dp"
+            android:layout_marginRight="8dp">
+
+            <RelativeLayout
+                android:id="@+id/button_click_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:background="@color/bottom_snackbar_background">
+
+                <TextView
+                    android:id="@+id/toast_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:fontFamily="@font/ys_display_regular"
+                    android:ellipsize="end"
+                    android:textColor="@color/bottom_snackbar_text"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
