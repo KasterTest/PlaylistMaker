@@ -38,7 +38,8 @@ val repositoryModule = module {
     single<PlaylistsRepository> {
         PlaylistsRepositoryImpl(
             database = get(),
-            converter = get()
+            playlistConverter = get(),
+            playlistTrackConverter= get()
         )
     }
 

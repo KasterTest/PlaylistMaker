@@ -92,7 +92,6 @@ class NewPlaylistViewModel(
                     coverImageUrl = coverImageUrl,
                     playlistName = playlistName,
                     playlistDescription = playlistDescription,
-                    trackList = emptyList(),
                     tracksCount = tracksCount
                 )
             )

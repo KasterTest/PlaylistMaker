@@ -42,7 +42,7 @@ import java.io.FileOutputStream
 class NewPlaylistFragment : Fragment() {
 
     private val viewModel by viewModel<NewPlaylistViewModel>()
-
+    private var isProcessingClick = false
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var binding: FragmentNewPlaylistBinding
 
@@ -99,6 +99,7 @@ class NewPlaylistFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.permissionStateFlow.collect { state ->
+                onPlaylistCoverClickedCompleted()
                 when (state) {
 
                     PermissionResultState.NEEDS_RATIONALE -> {
@@ -118,6 +119,10 @@ class NewPlaylistFragment : Fragment() {
         }
     }
 
+    private fun onPlaylistCoverClickedCompleted() {
+        isProcessingClick = false
+    }
+
     private fun initListeners() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -126,12 +131,18 @@ class NewPlaylistFragment : Fragment() {
                 }
             })
 
+
+
         binding.apply {
             navigationToolbar.setNavigationOnClickListener {
                 viewModel.onBackPressed()
             }
 
             playlistCoverImage.setOnClickListener {
+                if (isProcessingClick) {
+                    return@setOnClickListener
+                }
+                isProcessingClick = true
                 viewModel.onPlaylistCoverClicked()
             }
 

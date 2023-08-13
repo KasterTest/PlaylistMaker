@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.bignerdranch.android.playlistmaker.core.application.App
 import com.bignerdranch.android.playlistmaker.medialibrary.data.converters.PlaylistDbConverter
+import com.bignerdranch.android.playlistmaker.medialibrary.data.converters.PlaylistTrackDbConverter
 import com.bignerdranch.android.playlistmaker.medialibrary.data.db.AppDatabase
 import com.bignerdranch.android.playlistmaker.medialibrary.data.db.dao.FavoriteTracksDao
 import com.bignerdranch.android.playlistmaker.search.data.storage.SharedPrefsTracksStorage
@@ -30,6 +31,8 @@ val dataModule = module {
     single<FavoriteTracksDao> { get<AppDatabase>().dao() }
 
     single { PlaylistDbConverter() }
+
+    single { PlaylistTrackDbConverter() }
 
     single<TrackStorageRepository> {
         SharedPrefsTracksStorage (sharedPreferences = get(), favoriteTracksDao = get())

@@ -7,7 +7,9 @@
     android:layout_gravity="center_horizontal"
     android:elevation="8dp"
     android:foreground="?android:attr/selectableItemBackground"
+    android:backgroundTint="?attr/colorOnPrimary"
     android:orientation="vertical"
+    app:cardElevation="0dp"
     app:layout_constraintWidth_max="160dp"
     app:cardCornerRadius="@dimen/corner_radius_8dp">
 

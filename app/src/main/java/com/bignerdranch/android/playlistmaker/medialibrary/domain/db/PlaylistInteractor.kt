@@ -1,12 +1,16 @@
 package com.bignerdranch.android.playlistmaker.medialibrary.domain.db
 
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.models.PlayListTrackModel
 import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.PlaylistModel
-import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistsInteractor {
 
-    fun getPlaylists(): Flow<List<PlaylistModel>>
-    fun isTrackAlreadyExists(playlist: PlaylistModel, track: TrackModel): Boolean
-    suspend fun addTrackToPlaylist(playlist: PlaylistModel, track: TrackModel)
+    suspend fun getPlaylists(): Flow<List<PlaylistModel>>
+    fun isTrackAlreadyExists(playListTrackModels: List<PlayListTrackModel>, playlistIdToCheck: Int?): Boolean
+    suspend fun addTrackToPlaylist(trackModel: PlayListTrackModel)
+    suspend fun getPlaylistTracks(): List<PlayListTrackModel>
+    suspend fun updateTrakInPlaylist(trackModel: PlayListTrackModel)
+    suspend fun updateCountInPlaylist(playlist: PlaylistModel)
+
 }
