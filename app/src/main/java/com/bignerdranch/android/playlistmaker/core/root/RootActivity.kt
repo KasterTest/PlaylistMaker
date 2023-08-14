@@ -27,7 +27,6 @@ class RootActivity : AppCompatActivity() {
                 R.id.playerFragment, R.id.newPlaylistFragment, R.id.bottomSheet -> {
                     binding.bottomNavigationView.visibility = View.GONE
                 }
-
                 else -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE }
             }
@@ -41,6 +40,6 @@ class RootActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.bottomNavigationView.visibility = View.VISIBLE
+        //binding.bottomNavigationView.visibility = View.VISIBLE
     }
 }

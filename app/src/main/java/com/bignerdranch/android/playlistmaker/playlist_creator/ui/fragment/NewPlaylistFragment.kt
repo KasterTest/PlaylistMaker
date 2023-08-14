@@ -1,5 +1,6 @@
 package com.bignerdranch.android.playlistmaker.playlist_creator.ui.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -34,7 +35,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -99,7 +103,6 @@ class NewPlaylistFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.permissionStateFlow.collect { state ->
-                onPlaylistCoverClickedCompleted()
                 when (state) {
 
                     PermissionResultState.NEEDS_RATIONALE -> {
@@ -114,6 +117,10 @@ class NewPlaylistFragment : Fragment() {
                         intent.data = Uri.fromParts("package", requireContext().packageName, null)
                         requireContext().startActivity(intent)
                     }
+                }
+                withContext(Dispatchers.IO) {
+                    delay(300)
+                    onPlaylistCoverClickedCompleted()
                 }
             }
         }
@@ -183,14 +190,32 @@ class NewPlaylistFragment : Fragment() {
         }
     }
 
+//    private fun showDialog() {
+//        MaterialAlertDialogBuilder(requireContext())
+//            .setTitle(R.string.title_playlist_dialog)
+//            .setMessage(R.string.message_playlist_dialog)
+//            .setNeutralButton(R.string.cancel) { _, _ -> }
+//            .setPositiveButton(R.string.complete) { _, _ -> goBack() }
+//            .show()
+//    }
+
     private fun showDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.title_playlist_dialog)
             .setMessage(R.string.message_playlist_dialog)
             .setNeutralButton(R.string.cancel) { _, _ -> }
             .setPositiveButton(R.string.complete) { _, _ -> goBack() }
             .show()
+
+        // Получаем ссылки на кнопки в диалоге
+        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+
+        // Устанавливаем цвет текста для кнопок
+        positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.allert_custom_color))
+        neutralButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.allert_custom_color))
     }
+
 
     private fun saveImageToPrivateStorage(uri: Uri) {
         val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), getString(R.string.my_playlists))

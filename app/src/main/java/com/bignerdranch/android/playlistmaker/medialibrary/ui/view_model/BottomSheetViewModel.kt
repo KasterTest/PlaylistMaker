@@ -30,14 +30,19 @@ class BottomSheetViewModel(
             val clickedPlaylistId = getClickedPlaylistId(playlist)
             val playListTracks = getPlaylistTrack()
             val playlistIdForCheck = clickedPlaylistId
-            val playlistId = getTableTrackLine(playListTracks, track)
+            var playlistId = mutableListOf(clickedPlaylistId)
+
+            playlistId = getTableTrackLine(playListTracks, track)
+
 
             if (interactor.isTrackAlreadyExists(playListTracks, playlistIdForCheck) && playlistId.contains(playlistIdForCheck)) {
                 withContext(Dispatchers.Main) {
                     _contentFlow.value = BottomSheetState.AddedAlready(playlist)
                 }
             } else {
-                val trackModel = PlayListTrackModel(id = 0, playlistId = playlistId.toMutableList(), track = track)
+                playlistId = getTableTrackLine(playListTracks, track)
+                playlistId.add(clickedPlaylistId)
+                val trackModel = PlayListTrackModel(id = 0, playlistId = playlistId, track = track)
                 interactor.updateCountInPlaylist(playlist)
                 if (playListTracks.any { it.track == track }) {
                     interactor.updateTrakInPlaylist(trackModel)
@@ -56,12 +61,15 @@ class BottomSheetViewModel(
         return interactor.getPlaylistTracks()
     }
 
-    fun getTableTrackLine(tracklist: List<PlayListTrackModel>, track: TrackModel): List<Int?> {
-        return tracklist.firstOrNull { it.track == track }?.playlistId ?: emptyList()
+    fun getTableTrackLine(tracklist: List<PlayListTrackModel>, track: TrackModel): MutableList<Int?> {
+        val foundTrackLine = tracklist.firstOrNull { it.track == track }
+        return foundTrackLine?.playlistId?.toMutableList() ?: mutableListOf()
     }
 
     fun getClickedPlaylistId(playlist: PlaylistModel): Int? {
-        return allPlaylists?.indexOfFirst { it == playlist }?.takeIf { it != -1 }?.let { allPlaylists?.get(it)?.id }
+        return if (allPlaylists?.contains(playlist) == true) {
+            allPlaylists?.get(allPlaylists!!.indexOf(playlist))?.id
+        } else 0
     }
 
     private fun fillData() {

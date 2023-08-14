@@ -37,4 +37,5 @@
     <color name="ripple_dark">#1f000000</color>
     <color name="bottom_snackbar_background">#1A1B22</color>
     <color name="bottom_snackbar_text">#FFFFFF</color>
+    <color name="allert_custom_color">#1A1B22</color>
 </resources>

@@ -6,4 +6,5 @@
     <color name="unselected_color_bottom_nav_item">#FFFFFF</color>
     <color name="bottom_snackbar_background">#FFFFFF</color>
     <color name="bottom_snackbar_text">#1A1B22</color>
+    <color name="allert_custom_color">#FFFFFF</color>
 </resources>
