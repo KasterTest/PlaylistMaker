@@ -14,4 +14,11 @@
     <dimen name="track_info_text_size">13sp</dimen>
     <dimen name="header_table_layout">14sp</dimen>
     <dimen name="back_button_standart_margin">20dp</dimen>
+    <dimen name="corner_radius_bottom_sheet">16dp</dimen>
+    <dimen name="corner_radius_4dp">4dp</dimen>
+    <dimen name="corner_radius_8dp">8dp</dimen>
+    <dimen name="stroke_width_1dp">1dp</dimen>
+    <dimen name="corner_radius_2dp">2dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="toast_margin_top">16dp</dimen>
 </resources>

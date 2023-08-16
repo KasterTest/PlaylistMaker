@@ -1,9 +1,14 @@
-package com.bignerdranch.android.playlistmaker.player.ui.activity
+package com.bignerdranch.android.playlistmaker.player.ui.fragment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContextCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bignerdranch.android.playlistmaker.R
 import com.bignerdranch.android.playlistmaker.databinding.PlayerBinding
 import com.bignerdranch.android.playlistmaker.player.ui.models.PlayerActivityState
@@ -12,6 +17,7 @@ import com.bignerdranch.android.playlistmaker.player.ui.view_model.PlayerViewMod
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
+import com.practicum.playlistmaker.library.ui.bottom_sheet.BottomSheet
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -19,24 +25,21 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerFragment : Fragment() {
 
-
-    private val trackModel by lazy { getTrackFromBundle() }
-
+    private lateinit var binding: PlayerBinding
+    private val trackModel by lazy { retrieveTrack() }
     private val viewModel by viewModel<PlayerViewModel> {
         parametersOf(trackModel.previewUrl)
     }
-    private val binding by lazy { PlayerBinding.inflate(layoutInflater) }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = PlayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        supportActionBar?.hide()
-        window.statusBarColor = ContextCompat.getColor(this,
-            R.color.color_status_bar_search_activity
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         fillPlayer(trackModel)
         setListener()
         setStartTime()
@@ -49,17 +52,13 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.pausePlayer()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        viewModel.pausePlayer()
+    fun retrieveTrack(): TrackModel {
+        val trackJson = requireArguments().getString(KEY_TRACK)
+        return Gson().fromJson(trackJson, TrackModel::class.java) ?: TrackModel.emptyTrack
     }
 
-
-    private fun getTrackFromBundle(): TrackModel {
-        return Gson().fromJson(intent.getStringExtra("TRACK_INFO"), TrackModel::class.java)
-    }
     private fun observeViewModel() {
-        viewModel.state.observe(this) { state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 PlayerActivityState.StateOnComplitionTrack -> setOnComplitionTrack()
                 PlayerActivityState.StatePlayerPause -> setButtonToPlay()
@@ -77,9 +76,17 @@ class PlayerActivity : AppCompatActivity() {
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentPlayinTime)
     }
 
+    private fun startAnimation(button: ImageButton) {
+        button.startAnimation(
+            AnimationUtils.loadAnimation(
+                requireContext(), R.anim.scale
+            )
+        )
+    }
+
     private fun setListener () {
         binding.backToSearch.setOnClickListener() {
-            onBackPressed()
+            findNavController().navigateUp()
         }
         binding.playButton.setOnClickListener {
             viewModel.playButtonClicked()
@@ -87,6 +94,13 @@ class PlayerActivity : AppCompatActivity() {
 
         binding.buttonLike.setOnClickListener() {
             viewModel.buttonLikeClicked(trackModel)
+        }
+
+        binding.addButton.setOnClickListener { button ->
+            (button as? ImageButton)?.let { startAnimation(it) }
+            findNavController().navigate(
+                R.id.action_playerFragment_to_bottomSheet, BottomSheet.createArgs(trackModel)
+            )
         }
     }
 
@@ -108,7 +122,7 @@ class PlayerActivity : AppCompatActivity() {
             binding.infoStyle.text = primaryGenreName
             binding.infoCountry.text = country
 
-            Glide.with(this@PlayerActivity)
+            Glide.with(this@PlayerFragment)
                 .load(artworkUrl100.replaceAfterLast('/',"512x512bb.jpg"))
                 .placeholder(R.drawable.no_replay)
                 .transform(RoundedCorners(20))
@@ -150,6 +164,21 @@ class PlayerActivity : AppCompatActivity() {
         binding.buttonLike.setImageResource(R.drawable.unlike)
         trackModel.isFavorite = false
     }
+
+    companion object {
+        const val KEY_TRACK = "track"
+        private const val TRANSITION_DURATION = 1000
+
+        fun createArgs(track: TrackModel): Bundle {
+            val gson = Gson()
+            val jsonTrack = gson.toJson(track)
+            val bundle = Bundle()
+            bundle.putString(KEY_TRACK, jsonTrack)
+            return bundle
+        }
+    }
+
+
 
 
 
