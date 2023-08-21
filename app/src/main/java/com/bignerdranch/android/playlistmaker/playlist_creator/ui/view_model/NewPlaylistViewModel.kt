@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.net.URI
 
-class NewPlaylistViewModel(
+open class NewPlaylistViewModel(
     private val newPlaylistUseCase: NewPlaylistUseCase,
 ) : ViewModel() {
 
@@ -64,7 +64,7 @@ class NewPlaylistViewModel(
         }
     }
 
-    fun onPlaylistNameChanged(playlistName: String?) {
+    open fun onPlaylistNameChanged(playlistName: String?) {
 
         if (playlistName != null) {
             this.playlistName = playlistName
@@ -76,7 +76,7 @@ class NewPlaylistViewModel(
         } else _screenStateFlow.tryEmit(ScreenState.Empty())
     }
 
-    fun onPlaylistDescriptionChanged(playlistDescription: String?) {
+    open fun onPlaylistDescriptionChanged(playlistDescription: String?) {
 
         if (playlistDescription != null) {
             this.playlistDescription = playlistDescription
@@ -99,7 +99,7 @@ class NewPlaylistViewModel(
         }
     }
 
-    fun saveImageUri(uri: URI) {
+    open fun saveImageUri(uri: URI) {
         coverImageUrl = uri.toString()
     }
 
@@ -110,6 +110,16 @@ class NewPlaylistViewModel(
         } else {
             _screenStateFlow.tryEmit(ScreenState.AllowedToGoOut)
         }
+    }
+
+    open fun createPlaylist(): PlaylistModel {
+        return PlaylistModel(
+            id = 0,
+            coverImageUrl = coverImageUrl,
+            playlistName = playlistName,
+            playlistDescription = playlistDescription,
+            tracksCount = tracksCount
+        )
     }
 }
 

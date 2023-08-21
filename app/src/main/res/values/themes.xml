@@ -31,6 +31,10 @@
         <item name="background_hint_color">@color/gray</item>
         <item name="ripple">@color/ripple_light</item>
         <item name="update_text_color">@color/white</item>
+        <item name="background_playlist_menu_color">@color/light_grey</item>
+        <item name="expression_text_color">@color/color_text_main_menu</item>
+        <item name="general_text_color">@color/black</item>
+        <item name="bottom_sheet_placeholder_color">@color/color_text_main_menu</item>
     </style>
 
     <style name="Theme.PlaylistMakerMainMenu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">

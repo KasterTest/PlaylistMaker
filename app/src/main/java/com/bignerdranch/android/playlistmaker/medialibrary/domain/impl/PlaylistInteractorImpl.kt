@@ -12,28 +12,33 @@ class PlaylistInteractorImpl(private val repository: PlaylistsRepository) : Play
     override suspend fun getPlaylists(): Flow<List<PlaylistModel>> {
         return repository.getSavedPlaylists()
     }
-    override fun isTrackAlreadyExists(
-        playListTrackModels: List<PlayListTrackModel>,
-        playlistIdToCheck: Int?
-    ): Boolean {
-        return playListTrackModels.any { model ->
-            playlistIdToCheck != null && model.playlistId.contains(playlistIdToCheck)}
-    }
 
-    override suspend fun addTrackToPlaylist(trackModel: PlayListTrackModel) {
-        repository.addTrackToPlaylist(trackModel)
-    }
 
+    override suspend fun addTrackToPlaylist(playlist: Int, trackPlaylist: PlayListTrackModel) {
+        repository.addTrackToPlaylist(playlist, trackPlaylist)
+    }
     override suspend fun getPlaylistTracks(): List<PlayListTrackModel> {
         return repository.getSavedTrackInPlaylist()
     }
 
-    override suspend fun updateTrakInPlaylist(trackModel: PlayListTrackModel) {
-       repository.updateTrackInPlaylist(trackModel)
+    override suspend fun deleteTrack(playlist: PlaylistModel, trackModel: PlayListTrackModel) {
+        repository.deleteTrackFromPlaylist(playlist, trackModel)
     }
 
-    override suspend fun updateCountInPlaylist(playlist: PlaylistModel) {
-        playlist.tracksCount = playlist.tracksCount + 1
-        repository.updatePlaylistTrackCount(playlist)
+    override suspend fun deletePlaylist(playlist: PlaylistModel) {
+        repository.deletePlaylist(playlist)
     }
+
+    override suspend fun getPlaylist(id: Int): Flow<PlaylistModel> {
+        return repository.getSavedPlaylist(id)
+    }
+
+    override suspend fun getTracksFromPlaylist(playlist: PlaylistModel): List<PlayListTrackModel> {
+        return repository.getTracksInPlaylist(playlist.id)
+    }
+
+    override suspend fun isPlaylistEmpty(playlist: PlaylistModel, trackPlaylist: PlayListTrackModel): Boolean {
+        return repository.isPlaylistEmpty(playlist, trackPlaylist)
+    }
+
 }

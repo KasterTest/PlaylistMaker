@@ -43,16 +43,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 
-class NewPlaylistFragment : Fragment() {
+open class NewPlaylistFragment : Fragment() {
 
-    private val viewModel by viewModel<NewPlaylistViewModel>()
+    open  val viewModel by viewModel<NewPlaylistViewModel>()
     private var isProcessingClick = false
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var binding: FragmentNewPlaylistBinding
 
     companion object {
         private const val QUALITY_IMAGE = 30
-        private const val MESSAGE_DURATION = 4000
+        const val MESSAGE_DURATION = 4000
     }
 
     override fun onCreateView(
@@ -70,6 +70,7 @@ class NewPlaylistFragment : Fragment() {
         initPickMediaRegister()
         initObserver()
         initListeners()
+        initBackPressed()
     }
 
     private fun initPickMediaRegister() {
@@ -129,6 +130,22 @@ class NewPlaylistFragment : Fragment() {
     private fun onPlaylistCoverClickedCompleted() {
         isProcessingClick = false
     }
+
+
+    open fun initBackPressed() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.onBackPressed()
+                }
+            })
+
+        binding.navigationToolbar.setNavigationOnClickListener {
+            viewModel.onBackPressed()
+        }
+    }
+
 
     private fun initListeners() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
@@ -190,14 +207,7 @@ class NewPlaylistFragment : Fragment() {
         }
     }
 
-//    private fun showDialog() {
-//        MaterialAlertDialogBuilder(requireContext())
-//            .setTitle(R.string.title_playlist_dialog)
-//            .setMessage(R.string.message_playlist_dialog)
-//            .setNeutralButton(R.string.cancel) { _, _ -> }
-//            .setPositiveButton(R.string.complete) { _, _ -> goBack() }
-//            .show()
-//    }
+
 
     private fun showDialog() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
@@ -207,11 +217,8 @@ class NewPlaylistFragment : Fragment() {
             .setPositiveButton(R.string.complete) { _, _ -> goBack() }
             .show()
 
-        // Получаем ссылки на кнопки в диалоге
         val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
-
-        // Устанавливаем цвет текста для кнопок
         positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.allert_custom_color))
         neutralButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.allert_custom_color))
     }
@@ -231,7 +238,7 @@ class NewPlaylistFragment : Fragment() {
         viewModel.saveImageUri(file.toURI())
     }
 
-    private fun showMessage(message: String) {
+    open fun showMessage(message: String) {
         val parentView = requireActivity().findViewById<View>(android.R.id.content)
         Snackbar
             .make(

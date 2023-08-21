@@ -8,8 +8,17 @@ import androidx.room.PrimaryKey
 data class PlaylistTrackEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @ColumnInfo(name = "playlist_ids")
-    val playlistId: String,
-    @ColumnInfo(name = "track")
-    val track: String
+    val trackId: String,
+    val trackName: String,
+    val artistName: String,
+    @ColumnInfo(name = "track_duration")
+    val trackTimeMillis: Int,
+    val collectionName: String,
+    val releaseDate: String,
+    @ColumnInfo(name = "genre")
+    val primaryGenreName: String,
+    val country: String,
+    @ColumnInfo(name = "cover_url")
+    val artworkUrl100: String,
+    val previewUrl: String
 )

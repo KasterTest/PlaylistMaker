@@ -50,10 +50,37 @@
         <action
             android:id="@+id/action_mediaLibraryFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_playlistMenuFragment"
+            app:destination="@id/playlistMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.bignerdranch.android.playlistmaker.settings.ui.fragment.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/playlistMenuFragment"
+        android:name="com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment.PlaylistMenuFragment"
+        android:label="fragment_playlist_menu"
+        tools:layout="@layout/fragment_playlist_menu" >
+        <action
+            android:id="@+id/action_playlistMenuFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_playlistMenuFragment_to_bottomSheetMenu"
+            app:destination="@id/bottomSheetMenu" />
+    </fragment>
+    <dialog
+        android:id="@+id/bottomSheetMenu"
+        android:name="com.bignerdranch.android.playlistmaker.playlist_menu.ui.bottom_sheet.BottomSheetMenu"
+        android:label="BottomSheetMenu" >
+        <action
+            android:id="@+id/action_bottomSheetMenu_to_playlistRedactorFragment"
+            app:destination="@id/playlistRedactorFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/playlistRedactorFragment"
+        android:name="com.bignerdranch.android.playlistmaker.playlist_redactor.fragment.PlaylistRedactorFragment"
+        android:label="PlaylistRedactorFragment" />
 </navigation>
