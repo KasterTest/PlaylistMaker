@@ -14,5 +14,6 @@ interface PlaylistsInteractor {
     suspend fun deletePlaylist(playlist: PlaylistModel)
     suspend fun getTracksFromPlaylist (playlist: PlaylistModel) : List<PlayListTrackModel>
     suspend fun isPlaylistEmpty(playlist: PlaylistModel, trackPlaylist: PlayListTrackModel): Boolean
+    suspend fun updatePlaylist(playlist: PlaylistModel)
 
 }

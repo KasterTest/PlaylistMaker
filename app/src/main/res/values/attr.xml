@@ -18,7 +18,7 @@
     <attr name="expression_text_color" format="reference"/>
     <attr name="general_text_color" format="reference"/>
     <attr name="bottom_sheet_placeholder_color" format="reference"/>
-    #1A1B22
+    <attr name="general_background_color" format="reference"/>
 
 
 </resources>

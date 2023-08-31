@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.playlistmaker.R
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -28,7 +29,12 @@ class PlaylistMenuViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         Glide.with(itemView)
             .load(track.artworkUrl100)
             .placeholder(R.drawable.no_replay)
-            .transform(RoundedCorners(4))
+            .transform(
+                CenterCrop(),
+                RoundedCorners(
+                    itemView.resources.getDimensionPixelSize(R.dimen.album_cover_corner_radius)
+                ),
+            )
             .into(imageViewArtwork)
         itemView.setOnClickListener {
         }

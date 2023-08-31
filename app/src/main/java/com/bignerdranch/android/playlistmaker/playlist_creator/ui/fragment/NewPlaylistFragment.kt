@@ -234,7 +234,7 @@ open class NewPlaylistFragment : Fragment() {
         val outputStream = FileOutputStream(file)
 
         BitmapFactory.decodeStream(inputStream).compress(Bitmap.CompressFormat.JPEG, QUALITY_IMAGE, outputStream)
-
+        viewModel.saveImageUri(file.toURI().toString())
         viewModel.saveImageUri(file.toURI())
     }
 

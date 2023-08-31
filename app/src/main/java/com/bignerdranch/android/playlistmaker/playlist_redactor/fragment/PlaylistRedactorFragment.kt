@@ -2,8 +2,10 @@ package com.bignerdranch.android.playlistmaker.playlist_redactor.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bignerdranch.android.playlistmaker.R
 import com.bignerdranch.android.playlistmaker.databinding.FragmentNewPlaylistBinding
@@ -17,6 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistRedactorFragment : NewPlaylistFragment() {
@@ -24,6 +27,7 @@ class PlaylistRedactorFragment : NewPlaylistFragment() {
     override val viewModel by viewModel<PlaylistRedactorViewModel>()
     private val binding by viewBinding<FragmentNewPlaylistBinding>()
     private var playlist: PlaylistModel? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +39,10 @@ class PlaylistRedactorFragment : NewPlaylistFragment() {
         playlist?.let {
             drawPlaylist(it)
             viewModel.initPlaylist(it)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigateUp()
         }
     }
 
@@ -52,10 +60,8 @@ class PlaylistRedactorFragment : NewPlaylistFragment() {
             .setTextColor(ContextCompat.getColor(requireContext(), R.color.bottom_snackbar_text))
             .setDuration(MESSAGE_DURATION)
             .show()
+
     }
-
-
-
     override fun initBackPressed() {
         binding.navigationToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -63,7 +69,6 @@ class PlaylistRedactorFragment : NewPlaylistFragment() {
     }
 
     private fun drawPlaylist(playlist: PlaylistModel) {
-
         val cornerRadius =
             requireContext().resources.getDimensionPixelSize(R.dimen.corner_radius_8dp)
 
@@ -77,16 +82,32 @@ class PlaylistRedactorFragment : NewPlaylistFragment() {
                 .into(playlistCoverImage)
             playlistName.setText(playlist.playlistName)
             playlistDescription.setText(playlist.playlistDescription)
-
             buttonCreate.text = getString(R.string.save_playlist)
+            buttonCreate.setOnClickListener{
+                val savedImageUri = viewModel.getSavedImageUri()
+                val updatedPlaylist = savedImageUri?.let { it1 ->
+                    PlaylistModel(
+                        id = playlist.id,
+                        coverImageUrl = it1,
+                        playlistName = playlistName.text.toString(),
+                        playlistDescription = playlistDescription.text.toString(),
+                        tracksCount = playlist.tracksCount
+                    )
+                }
+                lifecycleScope.launch {
+                    if (updatedPlaylist != null) {
+                        viewModel.updatePlaylist(updatedPlaylist)
+                    }
+                }
+                showMessage(playlist.playlistName)
+                findNavController().navigateUp()
+            }
         }
-
     }
 
     companion object {
 
         private const val PLAYLIST_KEY = "playlist_key"
-        private const val MESSAGE_DURATION_MILLIS = 2000
 
         fun createArgs(playlist: PlaylistModel): Bundle = bundleOf(
             PLAYLIST_KEY to Gson().toJson(playlist)

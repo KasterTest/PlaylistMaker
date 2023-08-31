@@ -1,9 +1,11 @@
 package com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -54,11 +56,6 @@ class PlaylistMenuFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-            //trackAdapter = emptyParametersHolder()
-    }
-
     private fun initPlaylist() {
         val playlistId: Int = requireArguments().getInt(KEY_ID)
 
@@ -69,7 +66,6 @@ class PlaylistMenuFragment : Fragment() {
 
         val playlistDuration: Int = viewModel.getPlaylistDuration()
         val tracksCount: Int = viewModel.getTracksCount()
-
         binding.tvPlaylistDuration.text =
             resources.getQuantityString(R.plurals.minutes, playlistDuration, playlistDuration)
 
@@ -172,8 +168,8 @@ class PlaylistMenuFragment : Fragment() {
             is PlaylistMenuState.Content -> showContent(state.content, state.bottomListState)
             PlaylistMenuState.EmptyShare -> showMessage()
             is PlaylistMenuState.Share -> {
-                val messageCreator = MessageCreator(requireContext(), trackList)
-                viewModel.sharePlaylist(messageCreator.create(state.playlist))
+                val messageCreator = MessageCreator(requireContext())
+                viewModel.sharePlaylist(messageCreator.create(state.playlist, trackList))
             }
             PlaylistMenuState.DefaultState -> {}
         }
@@ -220,7 +216,7 @@ class PlaylistMenuFragment : Fragment() {
     }
 
     private fun showDialog(track: TrackModel) {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.delete_track))
             .setNegativeButton(getString(R.string.no)) { _, _ -> }
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
@@ -229,12 +225,20 @@ class PlaylistMenuFragment : Fragment() {
                 refreshPlaylistInfo()
             }
             .show()
+        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        neutralButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        val window = dialog.window
+        window?.setBackgroundDrawableResource(R.drawable.aller_custom_back)
+        val title = dialog.findViewById<TextView>(com.google.android.material.R.id.alertTitle)
+        title?.setTextColor(ContextCompat.getColor(requireContext(), R.color.allert_title_color))
     }
 
     companion object {
 
         const val KEY_ID = "key_id"
-        private const val PERCENT_OCCUPIED_BY_BOTTOM_SHEET = 0.30f
+        private const val PERCENT_OCCUPIED_BY_BOTTOM_SHEET = 0.32f
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
         private const val MESSAGE_DURATION_MILLIS = 2000
 

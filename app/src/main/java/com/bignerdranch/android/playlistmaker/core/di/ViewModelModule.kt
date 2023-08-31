@@ -39,7 +39,8 @@ val viewModelModule = module {
 
     viewModel<NewPlaylistViewModel>{
         NewPlaylistViewModel(
-            newPlaylistUseCase = get()
+            newPlaylistUseCase = get(),
+            context = get()
         )
     }
 
@@ -57,7 +58,9 @@ val viewModelModule = module {
 
     viewModel<PlaylistRedactorViewModel>{
         PlaylistRedactorViewModel(
-            useCase = get()
+            useCase = get(),
+            interactor = get(),
+            context = get()
         )
     }
 

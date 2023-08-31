@@ -41,4 +41,8 @@ class PlaylistInteractorImpl(private val repository: PlaylistsRepository) : Play
         return repository.isPlaylistEmpty(playlist, trackPlaylist)
     }
 
+    override suspend fun updatePlaylist(playlist: PlaylistModel) {
+        repository.updatePlaylist(playlist)
+    }
+
 }

@@ -18,9 +18,6 @@ interface PlaylistDao {
     @Delete
     suspend fun deletePlaylist(playlist: PlaylistEntity)
 
-    @Update
-    suspend fun updatePlaylist(playlist: PlaylistEntity)
-
     @Query("SELECT * FROM playlists ORDER BY saveDate DESC;")
     fun getSavedPlaylists(): Flow<List<PlaylistEntity>>
 
@@ -32,6 +29,9 @@ interface PlaylistDao {
 
     @Query("UPDATE playlists SET countTracks = :newTrackCount WHERE id = :playlistId")
     suspend fun updateTrackCount(playlistId: Int, newTrackCount: Int)
+
+    @Update
+    suspend fun updatePlaylist(playlist: PlaylistEntity)
 
 
 }

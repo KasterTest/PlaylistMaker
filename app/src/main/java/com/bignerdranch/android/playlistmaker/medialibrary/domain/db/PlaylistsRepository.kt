@@ -26,6 +26,8 @@ interface PlaylistsRepository {
 
     suspend fun getTrackIdByTrack(trackId: String): Int
 
+    suspend fun updatePlaylist(playlist: PlaylistModel)
+
 
 
 

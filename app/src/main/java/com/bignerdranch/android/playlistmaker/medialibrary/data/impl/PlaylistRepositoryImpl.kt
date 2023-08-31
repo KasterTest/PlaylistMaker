@@ -63,6 +63,10 @@ class PlaylistsRepositoryImpl(
         return database.playlistTrackDao().getTrackIdByTrack(trackId)
     }
 
+    override suspend fun updatePlaylist(playlist: PlaylistModel) {
+        database.playlistsDao().updatePlaylist(playlistConverter.map(playlist))
+    }
+
     override suspend fun addTrackToPlaylist(playlistId: Int, trackPlaylist: PlayListTrackModel) {
         val track = playlistTrackConverter.map(trackPlaylist)
         val allTrack = database.playlistTrackDao().getTracksFromPlaylist()

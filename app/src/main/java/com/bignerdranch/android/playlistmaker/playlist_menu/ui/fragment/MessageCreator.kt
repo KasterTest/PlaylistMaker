@@ -6,9 +6,9 @@ import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.Pla
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.utils.millisConverter
 
-class MessageCreator(private val context: Context, private val trackModel: List<TrackModel>) {
+class MessageCreator(private val context: Context) {
 
-    fun create(playlist: PlaylistModel): String {
+    fun create(playlist: PlaylistModel, trackModel: List<TrackModel>): String {
         val message = StringBuilder()
         message.append("${context.getString(R.string.playlist)}: ")
         message.append("'${playlist.playlistName}'\n")

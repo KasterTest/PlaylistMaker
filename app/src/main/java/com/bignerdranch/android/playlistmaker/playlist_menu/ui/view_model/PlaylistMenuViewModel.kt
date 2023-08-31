@@ -1,14 +1,15 @@
 package com.bignerdranch.android.playlistmaker.playlist_menu.ui.view_model
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.PlaylistsInteractor
-import com.bignerdranch.android.playlistmaker.medialibrary.domain.models.PlayListTrackModel
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.models.PlaylistTrackModelConverter
 import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.PlaylistModel
 import com.bignerdranch.android.playlistmaker.playlist_menu.ui.models.PlaylistMenuScreenState
 import com.bignerdranch.android.playlistmaker.playlist_menu.ui.models.PlaylistMenuState
 import com.bignerdranch.android.playlistmaker.playlist_menu.domain.api.PlaylistDurationCalculator
+import com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment.MessageCreator
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.sharing.domain.api.ISharingInteractor
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,8 +33,7 @@ class PlaylistMenuViewModel(
             playlistsInteractor.getPlaylist(playlistId).collect { playlist ->
                 playlistModel = playlist
                 viewModelScope.launch {
-                    val entityList = playlistsInteractor.getTracksFromPlaylist(playlist)
-                    trackFromPlaylist = mapedForMesages(playlistModel!!, entityList)
+                    trackFromPlaylist = mapedForMesages(playlistModel!!)
                     refreshState(trackFromPlaylist)
                 }
 
@@ -97,17 +97,20 @@ class PlaylistMenuViewModel(
         sharingInteractor.share(message)
     }
 
+    fun messagesCreator(context: Context, playlist: PlaylistModel) {
+        val messageCreator = MessageCreator(context)
+        playlist?.let {
+            sharePlaylist(messageCreator.create(playlist, trackFromPlaylist))
+
+        }
+    }
+
     fun deletePlaylist(playlist: PlaylistModel) {
         viewModelScope.launch {
             playlistsInteractor.deletePlaylist(playlist)
         }
     }
-
-    suspend fun getTracksFromPlaylist(playlist: PlaylistModel): List<PlayListTrackModel> {
-        return playlistsInteractor.getTracksFromPlaylist(playlist)
-    }
-
-    suspend fun mapedForMesages(playlist: PlaylistModel, trackModel: List<PlayListTrackModel>): List<TrackModel> {
+    suspend fun mapedForMesages(playlist: PlaylistModel): List<TrackModel> {
         val entityList = playlistsInteractor.getTracksFromPlaylist(playlist)
         val trackModelList = entityList.map { trackModelList ->
             PlaylistTrackModelConverter().map(trackModelList)

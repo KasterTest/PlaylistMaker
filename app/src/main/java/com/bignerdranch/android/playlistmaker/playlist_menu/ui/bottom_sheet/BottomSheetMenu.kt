@@ -1,10 +1,13 @@
 package com.bignerdranch.android.playlistmaker.playlist_menu.ui.bottom_sheet
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment.MessageCreator
 import com.bignerdranch.android.playlistmaker.playlist_redactor.fragment.PlaylistRedactorFragment
 import kotlinx.coroutines.launch
 
@@ -36,6 +38,7 @@ class BottomSheetMenu : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = BottomSheetMenuBinding.inflate(inflater, container, false)
+        binding.root.setBackgroundResource(R.drawable.bottom_sheet)
         return binding.root
     }
 
@@ -69,7 +72,9 @@ class BottomSheetMenu : BottomSheetDialogFragment() {
             tvTracksCount.text = resources.getQuantityString(
                 R.plurals.tracks, playlist.tracksCount, playlist.tracksCount
             )
+
         }
+
     }
 
     private fun setupClickListeners() {
@@ -89,25 +94,21 @@ class BottomSheetMenu : BottomSheetDialogFragment() {
 
     private fun sharePlaylist() {
         lifecycleScope.launch {
-            val tracks = playlist?.let { viewModel.getTracksFromPlaylist(it) }
             if (viewModel.isTracksEmpty(playlist!!)) {
                 showMessage(getString(R.string.empty_track_list))
             } else {
-                val messageCreator = MessageCreator(requireContext(), viewModel.mapedForMesages(
-                    playlist!!, tracks!!))
-                playlist?.let {
-                    viewModel.sharePlaylist(messageCreator.create(playlist!!))
+                viewModel.messagesCreator(requireContext(), playlist!!)
                 }
             }
         }
-    }
+
 
     private fun showMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.delete_playlist) + " ${playlist?.playlistName}?")
             .setNegativeButton(getString(R.string.no)) { _, _ -> }
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
@@ -115,6 +116,15 @@ class BottomSheetMenu : BottomSheetDialogFragment() {
                 goBack()
             }
             .show()
+
+        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        neutralButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        val window = dialog.window
+        window?.setBackgroundDrawableResource(R.drawable.aller_custom_back)
+        val title = dialog.findViewById<TextView>(com.google.android.material.R.id.alertTitle)
+        title?.setTextColor(ContextCompat.getColor(requireContext(), R.color.allert_title_color))
     }
 
     private fun goBack() {
