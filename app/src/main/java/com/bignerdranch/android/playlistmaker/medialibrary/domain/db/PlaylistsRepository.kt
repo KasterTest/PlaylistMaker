@@ -28,7 +28,8 @@ interface PlaylistsRepository {
 
     suspend fun updatePlaylist(playlist: PlaylistModel)
 
+    fun saveImageUri(uri: String)
 
-
+    fun getSavedImageUri(): String?
 
 }

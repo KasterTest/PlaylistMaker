@@ -4,4 +4,6 @@ import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.Pla
 
 interface NewPlaylistUseCase {
     suspend fun create(playlist: PlaylistModel)
+
+    fun saveImageToShared(uri: String)
 }

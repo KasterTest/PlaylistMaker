@@ -1,13 +1,15 @@
 package com.bignerdranch.android.playlistmaker.medialibrary.domain.impl
 
 
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.MessageCreatorRepository
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.PlaylistsInteractor
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.PlaylistsRepository
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.models.PlayListTrackModel
 import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.PlaylistModel
 import kotlinx.coroutines.flow.Flow
 
-class PlaylistInteractorImpl(private val repository: PlaylistsRepository) : PlaylistsInteractor {
+class PlaylistInteractorImpl(private val repository: PlaylistsRepository,
+                             private val messageCreatorRepository: MessageCreatorRepository) : PlaylistsInteractor {
     
     override suspend fun getPlaylists(): Flow<List<PlaylistModel>> {
         return repository.getSavedPlaylists()
@@ -43,6 +45,15 @@ class PlaylistInteractorImpl(private val repository: PlaylistsRepository) : Play
 
     override suspend fun updatePlaylist(playlist: PlaylistModel) {
         repository.updatePlaylist(playlist)
+    }
+
+    override fun getSavedImageUri(): String? {
+        return repository.getSavedImageUri()
+    }
+
+    override suspend fun createMessages(playlist: PlaylistModel): String {
+        val tracklist = getTracksFromPlaylist(playlist)
+        return messageCreatorRepository.createMessage(playlist, tracklist)
     }
 
 }

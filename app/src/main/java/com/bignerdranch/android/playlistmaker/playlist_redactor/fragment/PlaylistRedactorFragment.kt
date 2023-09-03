@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bignerdranch.android.playlistmaker.R
 import com.bignerdranch.android.playlistmaker.databinding.FragmentNewPlaylistBinding
@@ -19,7 +18,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistRedactorFragment : NewPlaylistFragment() {
@@ -94,11 +92,9 @@ class PlaylistRedactorFragment : NewPlaylistFragment() {
                         tracksCount = playlist.tracksCount
                     )
                 }
-                lifecycleScope.launch {
                     if (updatedPlaylist != null) {
                         viewModel.updatePlaylist(updatedPlaylist)
                     }
-                }
                 showMessage(playlist.playlistName)
                 findNavController().navigateUp()
             }

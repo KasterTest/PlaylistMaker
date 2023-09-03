@@ -15,5 +15,6 @@ interface PlaylistsInteractor {
     suspend fun getTracksFromPlaylist (playlist: PlaylistModel) : List<PlayListTrackModel>
     suspend fun isPlaylistEmpty(playlist: PlaylistModel, trackPlaylist: PlayListTrackModel): Boolean
     suspend fun updatePlaylist(playlist: PlaylistModel)
-
+    fun getSavedImageUri(): String?
+    suspend fun createMessages(playlist: PlaylistModel): String
 }

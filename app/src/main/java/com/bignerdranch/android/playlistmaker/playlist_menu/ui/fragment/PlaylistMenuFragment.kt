@@ -1,5 +1,6 @@
 package com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,6 +40,7 @@ class PlaylistMenuFragment : Fragment() {
     private val viewModel by viewModel<PlaylistMenuViewModel>()
     private val trackList = ArrayList<TrackModel>()
     private var trackAdapter = PlaylistMenuAdapter(trackList)
+    private var snackbar: Snackbar? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPlaylistMenuBinding.inflate(inflater, container, false)
@@ -53,7 +55,16 @@ class PlaylistMenuFragment : Fragment() {
         initBottomSheetBehavior()
         initAdapter()
         initListeners()
+        snackbar?.let {
+            it.dismiss()
+            snackbar = null
+        }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        snackbar?.dismiss()
+        snackbar = null
     }
 
     private fun initPlaylist() {
@@ -145,6 +156,7 @@ class PlaylistMenuFragment : Fragment() {
     }
 
     private fun openMenu(playlist: PlaylistModel) {
+        snackbar?.dismiss()
         findNavController().navigate(
             R.id.action_playlistMenuFragment_to_bottomSheetMenu,
             BottomSheetMenu.createArgs(playlist)
@@ -205,14 +217,14 @@ class PlaylistMenuFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun showMessage() {
         val message = getString(R.string.empty_track_list)
-        Snackbar
-            .make(requireContext(), binding.containerLayout, message, Snackbar.LENGTH_SHORT)
-            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.blue))
-            .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            .setDuration(MESSAGE_DURATION_MILLIS)
-            .show()
+        snackbar = Snackbar.make(requireContext(), binding.containerLayout, message, Snackbar.LENGTH_SHORT)
+            snackbar!!.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.blue))
+            snackbar!!.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            snackbar!!.setDuration(MESSAGE_DURATION_MILLIS)
+            snackbar!!.show()
     }
 
     private fun showDialog(track: TrackModel) {
@@ -240,7 +252,7 @@ class PlaylistMenuFragment : Fragment() {
         const val KEY_ID = "key_id"
         private const val PERCENT_OCCUPIED_BY_BOTTOM_SHEET = 0.32f
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
-        private const val MESSAGE_DURATION_MILLIS = 2000
+        const val MESSAGE_DURATION_MILLIS = 2000
 
         fun createArgs(id: Int): Bundle = bundleOf(
             KEY_ID to id

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.bignerdranch.android.playlistmaker.R
 import com.bignerdranch.android.playlistmaker.databinding.BottomSheetMenuBinding
 import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.PlaylistModel
+import com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment.PlaylistMenuFragment
 import com.bignerdranch.android.playlistmaker.playlist_menu.ui.view_model.PlaylistMenuViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -23,6 +23,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.bignerdranch.android.playlistmaker.playlist_redactor.fragment.PlaylistRedactorFragment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class BottomSheetMenu : BottomSheetDialogFragment() {
@@ -95,19 +96,32 @@ class BottomSheetMenu : BottomSheetDialogFragment() {
     private fun sharePlaylist() {
         lifecycleScope.launch {
             if (viewModel.isTracksEmpty(playlist!!)) {
-                showMessage(getString(R.string.empty_track_list))
+                showMessage()
+                findNavController().navigateUp()
             } else {
-                viewModel.messagesCreator(requireContext(), playlist!!)
+                viewModel.messagesCreator(playlist!!)
+                findNavController().navigateUp()
                 }
             }
         }
 
 
-    private fun showMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
+
+    private fun showMessage() {
+        val message = getString(R.string.empty_track_list)
+        parentFragment?.view?.let {
+            Snackbar
+                .make(requireContext(), it.findViewById(R.id.container_layout), message, Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.blue))
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                .setDuration(PlaylistMenuFragment.MESSAGE_DURATION_MILLIS)
+                .show()
+        }
     }
 
     private fun showDialog() {
+        findNavController().navigateUp()
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.delete_playlist) + " ${playlist?.playlistName}?")
             .setNegativeButton(getString(R.string.no)) { _, _ -> }

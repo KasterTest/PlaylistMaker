@@ -1,6 +1,9 @@
 package com.practicum.playlistmaker.library.ui.bottom_sheet
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -136,6 +139,9 @@ class BottomSheet : BottomSheetDialogFragment() {
     private fun setupRatio(context: Context, bottomSheetDialog: BottomSheetDialog, percetage: Int) {
 
         val bottomSheet = bottomSheetDialog.findViewById<View>(design_bottom_sheet) as FrameLayout
+        bottomSheet.backgroundTintMode = PorterDuff.Mode.CLEAR
+        bottomSheet.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+        bottomSheet.setBackgroundColor(Color.TRANSPARENT)
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = getBottomSheetDialogDefaultHeight(context, percetage)

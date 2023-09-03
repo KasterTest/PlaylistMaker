@@ -1,6 +1,5 @@
 package com.bignerdranch.android.playlistmaker.playlist_menu.ui.view_model
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.PlaylistsInteractor
@@ -9,7 +8,6 @@ import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.Pla
 import com.bignerdranch.android.playlistmaker.playlist_menu.ui.models.PlaylistMenuScreenState
 import com.bignerdranch.android.playlistmaker.playlist_menu.ui.models.PlaylistMenuState
 import com.bignerdranch.android.playlistmaker.playlist_menu.domain.api.PlaylistDurationCalculator
-import com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment.MessageCreator
 import com.bignerdranch.android.playlistmaker.search.domain.models.TrackModel
 import com.bignerdranch.android.playlistmaker.sharing.domain.api.ISharingInteractor
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -97,13 +95,9 @@ class PlaylistMenuViewModel(
         sharingInteractor.share(message)
     }
 
-    fun messagesCreator(context: Context, playlist: PlaylistModel) {
-        val messageCreator = MessageCreator(context)
-        playlist?.let {
-            sharePlaylist(messageCreator.create(playlist, trackFromPlaylist))
-
+    suspend fun messagesCreator(playlist: PlaylistModel) {
+            sharePlaylist(playlistsInteractor.createMessages(playlist))
         }
-    }
 
     fun deletePlaylist(playlist: PlaylistModel) {
         viewModelScope.launch {

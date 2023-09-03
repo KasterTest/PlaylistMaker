@@ -1,5 +1,6 @@
 package com.bignerdranch.android.playlistmaker.medialibrary.data.impl
 
+import android.content.SharedPreferences
 import com.bignerdranch.android.playlistmaker.medialibrary.data.converters.PlaylistDbConverter
 import com.bignerdranch.android.playlistmaker.medialibrary.data.converters.PlaylistTrackDbConverter
 import com.bignerdranch.android.playlistmaker.medialibrary.data.db.AppDatabase
@@ -15,6 +16,7 @@ class PlaylistsRepositoryImpl(
     private val database: AppDatabase,
     private val playlistConverter: PlaylistDbConverter,
     private val playlistTrackConverter: PlaylistTrackDbConverter,
+    private val sharedPreferences: SharedPreferences
 ) : PlaylistsRepository {
 
 
@@ -67,6 +69,14 @@ class PlaylistsRepositoryImpl(
         database.playlistsDao().updatePlaylist(playlistConverter.map(playlist))
     }
 
+   override fun saveImageUri(uri: String) {
+        sharedPreferences.edit().putString("image_uri", uri).apply()
+    }
+
+    override fun getSavedImageUri(): String? {
+        return sharedPreferences.getString("image_uri", null)
+    }
+
     override suspend fun addTrackToPlaylist(playlistId: Int, trackPlaylist: PlayListTrackModel) {
         val track = playlistTrackConverter.map(trackPlaylist)
         val allTrack = database.playlistTrackDao().getTracksFromPlaylist()
@@ -102,11 +112,6 @@ class PlaylistsRepositoryImpl(
     private fun convertFromTrackEntity(playlists: List<PlaylistEntity>): List<PlaylistModel> {
         return playlists.map { playlistConverter.map(it) }
     }
-
-    private fun  convertFromPlaylistEntity(playlists: List<PlaylistModel>): List<PlaylistEntity> {
-        return playlists.map { playlistConverter.map(it) }
-    }
-
 
     override suspend fun isPlaylistEmpty(playlist: PlaylistModel, trackPlaylist: PlayListTrackModel): Boolean {
         val playlistId = playlistConverter.map(playlist).id

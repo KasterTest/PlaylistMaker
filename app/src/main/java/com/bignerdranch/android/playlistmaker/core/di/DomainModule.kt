@@ -48,7 +48,8 @@ val domainModule = module {
 
     single<PlaylistsInteractor> {
         PlaylistInteractorImpl(
-            repository = get()
+            repository = get(),
+            messageCreatorRepository = get()
         )
     }
 

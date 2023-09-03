@@ -28,7 +28,7 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         Glide.with(itemView)
             .load(track.artworkUrl100)
             .placeholder(R.drawable.no_replay)
-            .transform(RoundedCorners(4))
+            .transform(RoundedCorners(8))
             .into(imageViewArtwork)
         itemView.setOnClickListener {
         }

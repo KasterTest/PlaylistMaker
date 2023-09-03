@@ -1,7 +1,6 @@
 package com.bignerdranch.android.playlistmaker.playlist_creator.ui.view_model
 
 import android.Manifest
-import android.content.Context
 import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,11 +16,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.net.URI
 
-open class NewPlaylistViewModel(
-    private val newPlaylistUseCase: NewPlaylistUseCase,
-    private val context: Context
-) : ViewModel() {
-    private val sharedPreferences = context.getSharedPreferences("image_uri", Context.MODE_PRIVATE)
+open class NewPlaylistViewModel(private val newPlaylistUseCase: NewPlaylistUseCase) : ViewModel() {
+
     private val _screenStateFlow: MutableSharedFlow<ScreenState> = MutableSharedFlow(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
@@ -124,12 +120,9 @@ open class NewPlaylistViewModel(
         )
     }
 
-    open fun saveImageUri(uri: String) {
-        sharedPreferences.edit().putString("image_uri", uri).apply()
+    fun saveImageToShared(uri: String){
+        newPlaylistUseCase.saveImageToShared(uri)
     }
 
-    open fun getSavedImageUri(): String? {
-        return sharedPreferences.getString("image_uri", null)
-    }
 }
 

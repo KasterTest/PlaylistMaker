@@ -12,4 +12,8 @@ class NewPlaylistUseCaseImpl(
     override suspend fun create(playlist: PlaylistModel) {
         repository.createPlaylist(playlist)
     }
+
+    override fun saveImageToShared(uri: String) {
+        repository.saveImageUri(uri)
+    }
 }
