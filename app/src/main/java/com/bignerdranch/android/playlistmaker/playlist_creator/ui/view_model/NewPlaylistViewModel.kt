@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.net.URI
 
-class NewPlaylistViewModel(
-    private val newPlaylistUseCase: NewPlaylistUseCase,
-) : ViewModel() {
+open class NewPlaylistViewModel(private val newPlaylistUseCase: NewPlaylistUseCase) : ViewModel() {
 
     private val _screenStateFlow: MutableSharedFlow<ScreenState> = MutableSharedFlow(
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
@@ -64,7 +62,7 @@ class NewPlaylistViewModel(
         }
     }
 
-    fun onPlaylistNameChanged(playlistName: String?) {
+    open fun onPlaylistNameChanged(playlistName: String?) {
 
         if (playlistName != null) {
             this.playlistName = playlistName
@@ -76,7 +74,7 @@ class NewPlaylistViewModel(
         } else _screenStateFlow.tryEmit(ScreenState.Empty())
     }
 
-    fun onPlaylistDescriptionChanged(playlistDescription: String?) {
+    open fun onPlaylistDescriptionChanged(playlistDescription: String?) {
 
         if (playlistDescription != null) {
             this.playlistDescription = playlistDescription
@@ -99,7 +97,7 @@ class NewPlaylistViewModel(
         }
     }
 
-    fun saveImageUri(uri: URI) {
+    open fun saveImageUri(uri: URI) {
         coverImageUrl = uri.toString()
     }
 
@@ -111,5 +109,20 @@ class NewPlaylistViewModel(
             _screenStateFlow.tryEmit(ScreenState.AllowedToGoOut)
         }
     }
+
+    open fun createPlaylist(): PlaylistModel {
+        return PlaylistModel(
+            id = 0,
+            coverImageUrl = coverImageUrl,
+            playlistName = playlistName,
+            playlistDescription = playlistDescription,
+            tracksCount = tracksCount
+        )
+    }
+
+    fun saveImageToShared(uri: String){
+        newPlaylistUseCase.saveImageToShared(uri)
+    }
+
 }
 

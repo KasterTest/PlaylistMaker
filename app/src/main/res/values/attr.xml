@@ -14,5 +14,11 @@
     <attr name="background_hint_color" format="reference"/>
     <attr name="ripple" format="reference"/>
     <attr name="update_text_color" format="reference"/>
+    <attr name="background_playlist_menu_color" format="reference"/>
+    <attr name="expression_text_color" format="reference"/>
+    <attr name="general_text_color" format="reference"/>
+    <attr name="bottom_sheet_placeholder_color" format="reference"/>
+    <attr name="general_background_color" format="reference"/>
+
 
 </resources>

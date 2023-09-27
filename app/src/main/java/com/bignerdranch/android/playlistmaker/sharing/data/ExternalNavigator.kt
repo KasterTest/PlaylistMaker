@@ -42,4 +42,13 @@ class ExternalNavigator(private val context: Context) : IExternalNavigator {
 
         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
+
+    override fun share(text: String) {
+        val intent = Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }, chooserTitle)
+
+        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
 }

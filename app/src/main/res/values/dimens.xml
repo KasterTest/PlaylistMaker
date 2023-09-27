@@ -21,4 +21,5 @@
     <dimen name="corner_radius_2dp">2dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="toast_margin_top">16dp</dimen>
+    <dimen name="album_cover_corner_radius">4dp</dimen>
 </resources>

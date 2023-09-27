@@ -12,7 +12,7 @@ import com.bignerdranch.android.playlistmaker.databinding.FragmentPlaylistsBindi
 import com.bignerdranch.android.playlistmaker.medialibrary.ui.models.PlaylistsScreenState
 import com.bignerdranch.android.playlistmaker.medialibrary.ui.view_model.PlaylistsViewModel
 import com.bignerdranch.android.playlistmaker.playlist_creator.domain.models.PlaylistModel
-import com.google.android.material.snackbar.Snackbar
+import com.bignerdranch.android.playlistmaker.playlist_menu.ui.fragment.PlaylistMenuFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -71,7 +71,10 @@ class PlaylistsFragment : Fragment() {
 
     private fun initAdapter() {
         playlistsAdapter = PlaylistsAdapter { playlist ->
-            Snackbar.make(requireView(), "Clicked", Snackbar.LENGTH_SHORT).show()
+            findNavController().navigate(
+                R.id.action_mediaLibraryFragment_to_playlistMenuFragment,
+                PlaylistMenuFragment.createArgs(playlist.id)
+            )
         }
 
         binding.playlists.apply {

@@ -10,6 +10,8 @@ import com.bignerdranch.android.playlistmaker.playlist_creator.domain.impl.NewPl
 import com.bignerdranch.android.playlistmaker.search.data.network.TrackSearchRepository
 import com.bignerdranch.android.playlistmaker.search.domain.api.TrackSearchInteractor
 import com.bignerdranch.android.playlistmaker.search.domain.impl.SearchInteractor
+import com.bignerdranch.android.playlistmaker.playlist_menu.domain.api.PlaylistDurationCalculator
+import com.bignerdranch.android.playlistmaker.playlist_menu.domain.impl.PlaylistDurationCalculatorImpl
 import com.bignerdranch.android.playlistmaker.settings.domain.api.ISettingsInteractor
 import com.bignerdranch.android.playlistmaker.settings.domain.impl.SettingsInteractor
 import com.bignerdranch.android.playlistmaker.sharing.domain.api.ISharingInteractor
@@ -46,7 +48,8 @@ val domainModule = module {
 
     single<PlaylistsInteractor> {
         PlaylistInteractorImpl(
-            repository = get()
+            repository = get(),
+            messageCreatorRepository = get()
         )
     }
 
@@ -54,6 +57,10 @@ val domainModule = module {
         NewPlaylistUseCaseImpl(
             repository = get()
         )
+    }
+
+    single<PlaylistDurationCalculator> {
+        PlaylistDurationCalculatorImpl()
     }
 
 }

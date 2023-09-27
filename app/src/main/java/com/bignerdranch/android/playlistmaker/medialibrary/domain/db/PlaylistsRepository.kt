@@ -10,14 +10,26 @@ interface PlaylistsRepository {
 
     suspend fun deletePlaylist(playlist: PlaylistModel)
 
-    suspend fun addTrackToPlaylist(trackPlaylist: PlayListTrackModel)
-
-    suspend fun updateTrackInPlaylist(playlist: PlayListTrackModel)
+    suspend fun addTrackToPlaylist(playlist: Int, trackPlaylist: PlayListTrackModel)
 
     suspend fun getSavedPlaylists(): Flow<List<PlaylistModel>>
 
+    suspend fun getSavedPlaylist(playlistId: Int): Flow<PlaylistModel>
+
     suspend fun getSavedTrackInPlaylist(): List<PlayListTrackModel>
 
-    suspend fun updatePlaylistTrackCount(playlist: PlaylistModel)
+    suspend fun isPlaylistEmpty (playlist: PlaylistModel, trackPlaylist: PlayListTrackModel): Boolean
+
+    suspend fun deleteTrackFromPlaylist(playlist: PlaylistModel, trackPlaylist: PlayListTrackModel)
+
+    suspend fun getTracksInPlaylist (playlistId: Int) : List<PlayListTrackModel>
+
+    suspend fun getTrackIdByTrack(trackId: String): Int
+
+    suspend fun updatePlaylist(playlist: PlaylistModel)
+
+    fun saveImageUri(uri: String)
+
+    fun getSavedImageUri(): String?
 
 }

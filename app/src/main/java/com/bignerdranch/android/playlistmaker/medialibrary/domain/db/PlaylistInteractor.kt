@@ -7,10 +7,14 @@ import kotlinx.coroutines.flow.Flow
 interface PlaylistsInteractor {
 
     suspend fun getPlaylists(): Flow<List<PlaylistModel>>
-    fun isTrackAlreadyExists(playListTrackModels: List<PlayListTrackModel>, playlistIdToCheck: Int?): Boolean
-    suspend fun addTrackToPlaylist(trackModel: PlayListTrackModel)
+    suspend fun getPlaylist(playlistId: Int): Flow<PlaylistModel>
+    suspend fun addTrackToPlaylist(playlist: Int, trackPlaylist: PlayListTrackModel)
     suspend fun getPlaylistTracks(): List<PlayListTrackModel>
-    suspend fun updateTrakInPlaylist(trackModel: PlayListTrackModel)
-    suspend fun updateCountInPlaylist(playlist: PlaylistModel)
-
+    suspend fun deleteTrack(playlist: PlaylistModel, trackModel: PlayListTrackModel)
+    suspend fun deletePlaylist(playlist: PlaylistModel)
+    suspend fun getTracksFromPlaylist (playlist: PlaylistModel) : List<PlayListTrackModel>
+    suspend fun isPlaylistEmpty(playlist: PlaylistModel, trackPlaylist: PlayListTrackModel): Boolean
+    suspend fun updatePlaylist(playlist: PlaylistModel)
+    fun getSavedImageUri(): String?
+    suspend fun createMessages(playlist: PlaylistModel): String
 }

@@ -2,8 +2,10 @@ package com.bignerdranch.android.playlistmaker.core.di
 
 import com.bignerdranch.android.playlistmaker.medialibrary.data.converters.TracksDbConvertor
 import com.bignerdranch.android.playlistmaker.medialibrary.data.impl.FavoriteTracksRepositoryImpl
+import com.bignerdranch.android.playlistmaker.medialibrary.data.impl.MessageCreatorImpl
 import com.bignerdranch.android.playlistmaker.medialibrary.data.impl.PlaylistsRepositoryImpl
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.FavoriteTracksRepository
+import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.MessageCreatorRepository
 import com.bignerdranch.android.playlistmaker.medialibrary.domain.db.PlaylistsRepository
 import com.bignerdranch.android.playlistmaker.player.data.PlayerRepositoryImpl
 import com.bignerdranch.android.playlistmaker.player.domain.api.PlayerRepository
@@ -39,7 +41,14 @@ val repositoryModule = module {
         PlaylistsRepositoryImpl(
             database = get(),
             playlistConverter = get(),
-            playlistTrackConverter= get()
+            playlistTrackConverter= get(),
+            sharedPreferences = get()
+        )
+    }
+
+    single<MessageCreatorRepository> {
+        MessageCreatorImpl(
+            context = get()
         )
     }
 

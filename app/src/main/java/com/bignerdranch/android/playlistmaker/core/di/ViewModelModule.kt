@@ -5,6 +5,8 @@ import com.bignerdranch.android.playlistmaker.medialibrary.ui.view_model.Favorit
 import com.bignerdranch.android.playlistmaker.medialibrary.ui.view_model.PlaylistsViewModel
 import com.bignerdranch.android.playlistmaker.player.ui.view_model.PlayerViewModel
 import com.bignerdranch.android.playlistmaker.playlist_creator.ui.view_model.NewPlaylistViewModel
+import com.bignerdranch.android.playlistmaker.playlist_menu.ui.view_model.PlaylistMenuViewModel
+import com.bignerdranch.android.playlistmaker.playlist_redactor.view_model.PlaylistRedactorViewModel
 import com.bignerdranch.android.playlistmaker.search.ui.view_model.SearchViewModel
 import com.bignerdranch.android.playlistmaker.settings.ui.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -52,5 +54,22 @@ val viewModelModule = module {
            interactor = get()
         )
     }
+
+    viewModel<PlaylistRedactorViewModel>{
+        PlaylistRedactorViewModel(
+            useCase = get(),
+            interactor = get()
+        )
+    }
+
+    viewModel<PlaylistMenuViewModel>{
+        PlaylistMenuViewModel(
+            calculator = get(),
+            playlistsInteractor = get(),
+            sharingInteractor = get()
+        )
+    }
+
+
 
 }

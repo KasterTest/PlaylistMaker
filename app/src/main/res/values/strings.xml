@@ -51,7 +51,18 @@
     <string name="playlist_name">Название*</string>
     <string name="play_list_discription">Описание</string>
     <string name="create_playlist">Создать</string>
-
+    <string name="nothing_added">Вы еще не добавили ни одного трека</string>
+    <string name="empty_track_list">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="delete_track">Хотите удалить трек?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="share">Поделиться</string>
+    <string name="edit_Information">Редактировать информацию</string>
+    <string name="delete">Удалить плейлист</string>
+    <string name="delete_playlist">Хотите удалить плейлист</string>
+    <string name="changed">изменен</string>
+    <string name="edit_title">Редактировать</string>
+    <string name="save_playlist">Сохранить</string>
 
     <plurals name="tracks">
         <item quantity="zero">нет треков</item>
@@ -60,6 +71,13 @@
         <item quantity="few">%1$d трека</item>
         <item quantity="many">%1$d треков</item>
         <item quantity="other">%1$d треков</item>
+    </plurals>
+
+    <plurals name="minutes">
+        <item quantity="one">%1$d минута</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
     </plurals>
 
 </resources>

@@ -6,4 +6,5 @@ interface IExternalNavigator {
     fun shareLink(shareAppLink: String)
     fun openLink(termsLink: String)
     fun openEmail(supportEmail: EmailData)
+    fun share(text: String)
 }
